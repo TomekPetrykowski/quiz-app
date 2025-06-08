@@ -4,8 +4,7 @@ import {
   getUserById,
   createUser,
   updateUser,
-  deactivateUser,
-  getUserQuizzes,
+  deleteUser,
 } from "./controller";
 import validateRequest from "../../../middleware/validate-request";
 import {
@@ -19,7 +18,6 @@ users.get("/", getUsers);
 users.get("/:id", getUserById);
 users.post("/", validateRequest(createUserSchema), createUser);
 users.put("/:id", validateRequest(updateUserSchema), updateUser);
-users.delete("/:id", deactivateUser);
-users.get("/:id/quizzes", getUserQuizzes);
+users.delete("/:id", deleteUser);
 
 export default users;
