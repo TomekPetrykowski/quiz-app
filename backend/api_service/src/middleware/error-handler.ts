@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import config from "../config";
 import { getErrorMessage } from "../utils";
 import CustomError from "../errors/CustomError";
+import Joi from "joi";
 
 export default function errorHandler(
   error: unknown,
@@ -11,6 +12,21 @@ export default function errorHandler(
 ) {
   if (res.headersSent || config.debug) {
     next(error);
+    return;
+  }
+
+  if (Joi.isError(error)) {
+    const validationError: ValidationError = {
+      error: {
+        message: "Validation error",
+        code: "ERR_VALID",
+        errors: error.details.map((detail) => ({
+          message: detail.message,
+        })),
+      },
+    };
+
+    res.status(422).json(validationError);
     return;
   }
 
