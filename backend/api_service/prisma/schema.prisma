@@ -22,7 +22,6 @@ model User {
   firstName    String?   @map("first_name")
   lastName     String?   @map("last_name")
   avatar       String?
-  isActive     Boolean   @default(true) @map("is_active")
   totalScore   Int       @default(0) @map("total_score")
   createdAt    DateTime  @default(now()) @map("created_at")
   updatedAt    DateTime  @updatedAt @map("updated_at")
@@ -47,7 +46,6 @@ model Category {
   parentId    String?    @map("parent_id")
   parent      Category?  @relation("CategoryHierarchy", fields: [parentId], references: [id])
   children    Category[] @relation("CategoryHierarchy")
-  isActive    Boolean    @default(true) @map("is_active")
   createdAt   DateTime   @default(now()) @map("created_at")
   updatedAt   DateTime   @updatedAt @map("updated_at")
 
@@ -289,7 +287,7 @@ model UserAchievement {
   userId        String    @map("user_id")
   achievementId String    @map("achievement_id")
   earnedAt      DateTime  @default(now()) @map("earned_at")
-  progress      Json?     // postęp w osiągnięciu
+  progress      Json?     // postęp w osiągnięciu, jeśli dotyczy
 
   // Relacje
   user        User        @relation(fields: [userId], references: [id])
