@@ -113,15 +113,6 @@ export const createUser = async (
     const { keycloakId, email, username, firstName, lastName, avatar } =
       req.body;
 
-    // Validate required fields
-    if (!keycloakId || !email || !username) {
-      throw new CustomError({
-        message: "keycloakId, email, and username are required",
-        statusCode: 400,
-        code: "ERR_VALID",
-      });
-    }
-
     const user = await prisma.user.create({
       data: {
         keycloakId,
