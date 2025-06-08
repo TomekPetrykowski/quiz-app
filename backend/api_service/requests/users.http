@@ -14,10 +14,10 @@ POST http://localhost:3000/v1/users HTTP/1.1
 Content-Type: application/json
 
 {
-  "keycloakId": "keycloak-user-124",
-  "email": "mike.doe@example.com",
-  "username": "mikedoe",
-  "firstName": "Mike",
+  "keycloakId": "4028c181-fdd5-48a0-b8a5-3b54b49c7251",
+  "email": "alan.doe@example.com",
+  "username": "alandoe",
+  "firstName": "Alan",
   "lastName": "Doe",
   "avatar": "https://example.com/avatar.jpg"
 }
@@ -27,9 +27,25 @@ PUT http://localhost:3000/v1/users/{{userId}} HTTP/1.1
 Content-Type: application/json
 
 {
-  "firstName": "John Updated",
-  "lastName": "Doe Updated",
-  "avatar": "https://example.com/new-avatar.jpg"
+  "email": ""
+}
+
+### Update user - Empty body (should fail)
+PUT http://localhost:3000/v1/users/{{userId}} HTTP/1.1
+Content-Type: application/json
+
+### Update user - Empty object (should fail)  
+PUT http://localhost:3000/v1/users/{{userId}} HTTP/1.1
+Content-Type: application/json
+
+{}
+
+### Update user - Invalid field (should fail)
+PUT http://localhost:3000/v1/users/{{userId}} HTTP/1.1
+Content-Type: application/json
+
+{
+  "hello": "world"
 }
 
 ### Deactivate user
