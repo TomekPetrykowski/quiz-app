@@ -1,10 +1,10 @@
 import CustomError from "./CustomError";
 
-class EntityNotFoundError extends CustomError<ErrorCode> {
+export class BadRequestError extends CustomError<ErrorCode> {
   constructor({
-    message = "Entity not found",
-    statusCode = 404,
-    code = "ERR_NF",
+    message = "Bad request",
+    statusCode = 400,
+    code = "ERR_BAD_REQ",
   }: {
     message?: string;
     statusCode?: number;
@@ -17,4 +17,3 @@ class EntityNotFoundError extends CustomError<ErrorCode> {
     });
   }
 }
-export default EntityNotFoundError;
