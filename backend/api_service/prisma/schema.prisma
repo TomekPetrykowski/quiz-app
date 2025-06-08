@@ -1,0 +1,435 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Użytkownicy - integracja z Keycloak
+model User {
+  id           String    @id @default(cuid())
+  keycloakId   String    @unique @map("keycloak_id") // ID z Keycloak
+  email        String    @unique
+  username     String    @unique
+  firstName    String?   @map("first_name")
+  lastName     String?   @map("last_name")
+  avatar       String?
+  isActive     Boolean   @default(true) @map("is_active")
+  totalScore   Int       @default(0) @map("total_score")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  // Relacje
+  quizzes            Quiz[]
+  quizAttempts       QuizAttempt[]
+  achievements       UserAchievement[]
+  groupMemberships   GroupMember[]
+  quizComments       QuizComment[]
+  quizRatings        QuizRating[]
+  ownedGroups        Group[]
+
+  @@map("users")
+}
+
+// Kategorie quizów
+model Category {
+  id          String     @id @default(cuid())
+  name        String     @unique
+  description String?
+  parentId    String?    @map("parent_id")
+  parent      Category?  @relation("CategoryHierarchy", fields: [parentId], references: [id])
+  children    Category[] @relation("CategoryHierarchy")
+  isActive    Boolean    @default(true) @map("is_active")
+  createdAt   DateTime   @default(now()) @map("created_at")
+  updatedAt   DateTime   @updatedAt @map("updated_at")
+
+  // Relacje
+  quizzes Quiz[]
+
+  @@map("categories")
+}
+
+// Tagi
+model Tag {
+  id        String    @id @default(cuid())
+  name      String    @unique
+  color     String?   // Hex color dla UI
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+
+  // Relacje
+  quizTags QuizTag[]
+
+  @@map("tags")
+}
+
+// Poziomy trudności
+enum DifficultyLevel {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+  EXPERT
+}
+
+// Status quizu
+enum QuizStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+// Poziom prywatności
+enum PrivacyLevel {
+  PUBLIC
+  PRIVATE
+  GROUP_ONLY
+}
+
+// Quizy
+model Quiz {
+  id              String        @id @default(cuid())
+  title           String
+  description     String?
+  categoryId      String        @map("category_id")
+  authorId        String        @map("author_id")
+  difficulty      DifficultyLevel
+  status          QuizStatus    @default(DRAFT)
+  privacy         PrivacyLevel  @default(PUBLIC)
+  timeLimit       Int?          @map("time_limit") // w sekundach
+  passingScore    Int?          @map("passing_score") // procent wymagany do zaliczenia
+  maxAttempts     Int?          @map("max_attempts") // maksymalna liczba prób
+  isShuffled      Boolean       @default(false) @map("is_shuffled") // czy tasować pytania
+  showAnswers     Boolean       @default(true) @map("show_answers") // czy pokazywać odpowiedzi po quizie
+  attemptsCount   Int           @default(0) @map("attempts_count")
+  averageScore    Float?        @map("average_score")
+  totalRatings    Int           @default(0) @map("total_ratings")
+  averageRating   Float?        @map("average_rating")
+  viewsCount      Int           @default(0) @map("views_count")
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @updatedAt @map("updated_at")
+
+  // Relacje
+  category       Category        @relation(fields: [categoryId], references: [id])
+  author         User            @relation(fields: [authorId], references: [id])
+  questions      Question[]
+  quizTags       QuizTag[]
+  quizAttempts   QuizAttempt[]
+  quizComments   QuizComment[]
+  quizRatings    QuizRating[]
+  groupQuizzes   GroupQuiz[]
+
+  @@map("quizzes")
+  @@index([categoryId])
+  @@index([authorId])
+  @@index([status])
+  @@index([difficulty])
+  @@index([createdAt])
+}
+
+// Powiązanie quizów z tagami
+model QuizTag {
+  id     String @id @default(cuid())
+  quizId String @map("quiz_id")
+  tagId  String @map("tag_id")
+
+  quiz Quiz @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  tag  Tag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@unique([quizId, tagId])
+  @@map("quiz_tags")
+}
+
+// Typy pytań
+enum QuestionType {
+  SINGLE_CHOICE
+  MULTIPLE_CHOICE
+  TRUE_FALSE
+  OPEN_TEXT
+  FILL_BLANK
+}
+
+// Pytania
+model Question {
+  id           String       @id @default(cuid())
+  quizId       String       @map("quiz_id")
+  type         QuestionType
+  question     String
+  explanation  String?      // wyjaśnienie odpowiedzi
+  points       Int          @default(1)
+  timeLimit    Int?         @map("time_limit") // limit czasu na pytanie w sekundach
+  order        Int          // kolejność pytania w quizie
+  isRequired   Boolean      @default(true) @map("is_required")
+  createdAt    DateTime     @default(now()) @map("created_at")
+  updatedAt    DateTime     @updatedAt @map("updated_at")
+
+  // Relacje
+  quiz         Quiz           @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  answers      Answer[]
+  userAnswers  UserAnswer[]
+
+  @@map("questions")
+  @@index([quizId])
+  @@index([order])
+}
+
+// Odpowiedzi do pytań
+model Answer {
+  id         String   @id @default(cuid())
+  questionId String   @map("question_id")
+  text       String
+  isCorrect  Boolean  @default(false) @map("is_correct")
+  order      Int      // kolejność odpowiedzi
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  // Relacje
+  question    Question     @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  userAnswers UserAnswer[]
+
+  @@map("answers")
+  @@index([questionId])
+}
+
+// Status próby rozwiązania quizu
+enum AttemptStatus {
+  IN_PROGRESS
+  COMPLETED
+  ABANDONED
+  TIME_EXPIRED
+}
+
+// Próby rozwiązania quizu
+model QuizAttempt {
+  id            String        @id @default(cuid())
+  quizId        String        @map("quiz_id")
+  userId        String        @map("user_id")
+  status        AttemptStatus @default(IN_PROGRESS)
+  score         Int?
+  maxScore      Int?          @map("max_score")
+  percentage    Float?
+  timeSpent     Int?          @map("time_spent") // w sekundach
+  startedAt     DateTime      @default(now()) @map("started_at")
+  completedAt   DateTime?     @map("completed_at")
+  createdAt     DateTime      @default(now()) @map("created_at")
+  updatedAt     DateTime      @updatedAt @map("updated_at")
+
+  // Relacje
+  quiz        Quiz         @relation(fields: [quizId], references: [id])
+  user        User         @relation(fields: [userId], references: [id])
+  userAnswers UserAnswer[]
+
+  @@map("quiz_attempts")
+  @@index([quizId])
+  @@index([userId])
+  @@index([status])
+  @@index([startedAt])
+}
+
+// Odpowiedzi użytkowników
+model UserAnswer {
+  id             String   @id @default(cuid())
+  attemptId      String   @map("attempt_id")
+  questionId     String   @map("question_id")
+  answerId       String?  @map("answer_id") // dla pytań wielokrotnego wyboru
+  textAnswer     String?  @map("text_answer") // dla pytań otwartych
+  isCorrect      Boolean? @map("is_correct")
+  pointsEarned   Int      @default(0) @map("points_earned")
+  timeSpent      Int?     @map("time_spent") // czas spędzony na pytaniu
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  // Relacje
+  attempt  QuizAttempt    @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  question Question       @relation(fields: [questionId], references: [id])
+  answer   Answer?        @relation(fields: [answerId], references: [id])
+
+  @@map("user_answers")
+  @@index([attemptId])
+  @@index([questionId])
+}
+
+// Typy osiągnięć
+enum AchievementType {
+  QUIZ_COMPLETION
+  SCORE_MILESTONE
+  STREAK
+  CATEGORY_MASTER
+  TIME_CHALLENGE
+}
+
+// Osiągnięcia
+model Achievement {
+  id          String          @id @default(cuid())
+  name        String          @unique
+  description String
+  type        AchievementType
+  icon        String?
+  points      Int             @default(0)
+  requirement Json            // warunki do spełnienia (elastyczne)
+  isActive    Boolean         @default(true) @map("is_active")
+  createdAt   DateTime        @default(now()) @map("created_at")
+  updatedAt   DateTime        @updatedAt @map("updated_at")
+
+  // Relacje
+  userAchievements UserAchievement[]
+
+  @@map("achievements")
+}
+
+// Osiągnięcia użytkowników
+model UserAchievement {
+  id            String    @id @default(cuid())
+  userId        String    @map("user_id")
+  achievementId String    @map("achievement_id")
+  earnedAt      DateTime  @default(now()) @map("earned_at")
+  progress      Json?     // postęp w osiągnięciu
+
+  // Relacje
+  user        User        @relation(fields: [userId], references: [id])
+  achievement Achievement @relation(fields: [achievementId], references: [id])
+
+  @@unique([userId, achievementId])
+  @@map("user_achievements")
+}
+
+// Grupy użytkowników
+model Group {
+  id          String    @id @default(cuid())
+  name        String
+  description String?
+  ownerId     String    @map("owner_id")
+  isPublic    Boolean   @default(false) @map("is_public")
+  inviteCode  String?   @unique @map("invite_code")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  // Relacje
+  owner       User          @relation(fields: [ownerId], references: [id])
+  members     GroupMember[]
+  groupQuizzes GroupQuiz[]
+
+  @@map("groups")
+  @@index([ownerId])
+}
+
+// Role w grupie
+enum GroupRole {
+  MEMBER
+  MODERATOR
+  ADMIN
+}
+
+// Członkowie grup
+model GroupMember {
+  id       String    @id @default(cuid())
+  groupId  String    @map("group_id")
+  userId   String    @map("user_id")
+  role     GroupRole @default(MEMBER)
+  joinedAt DateTime  @default(now()) @map("joined_at")
+
+  // Relacje
+  group Group @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([groupId, userId])
+  @@map("group_members")
+}
+
+// Quizy przypisane do grup
+model GroupQuiz {
+  id        String   @id @default(cuid())
+  groupId   String   @map("group_id")
+  quizId    String   @map("quiz_id")
+  assignedAt DateTime @default(now()) @map("assigned_at")
+
+  // Relacje
+  group Group @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  quiz  Quiz  @relation(fields: [quizId], references: [id], onDelete: Cascade)
+
+  @@unique([groupId, quizId])
+  @@map("group_quizzes")
+}
+
+// Komentarze do quizów
+model QuizComment {
+  id        String   @id @default(cuid())
+  quizId    String   @map("quiz_id")
+  userId    String   @map("user_id")
+  content   String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relacje
+  quiz Quiz @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("quiz_comments")
+  @@index([quizId])
+  @@index([userId])
+  @@index([createdAt])
+}
+
+// Oceny quizów
+model QuizRating {
+  id       String   @id @default(cuid())
+  quizId   String   @map("quiz_id")
+  userId   String   @map("user_id")
+  rating   Int      // 1-5
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relacje
+  quiz Quiz @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([quizId, userId])
+  @@map("quiz_ratings")
+}
+
+// Rankingi
+model Leaderboard {
+  id         String          @id @default(cuid())
+  name       String
+  type       LeaderboardType
+  period     String?         // np. "weekly", "monthly"
+  categoryId String?         @map("category_id")
+  isActive   Boolean         @default(true) @map("is_active")
+  createdAt  DateTime        @default(now()) @map("created_at")
+  updatedAt  DateTime        @updatedAt @map("updated_at")
+
+  // Relacje
+  entries LeaderboardEntry[]
+
+  @@map("leaderboards")
+}
+
+enum LeaderboardType {
+  GLOBAL
+  CATEGORY
+  WEEKLY
+  MONTHLY
+}
+
+// Wpisy w rankingu
+model LeaderboardEntry {
+  id            String      @id @default(cuid())
+  leaderboardId String      @map("leaderboard_id")
+  userId        String      @map("user_id")
+  score         Int
+  position      Int
+  createdAt     DateTime    @default(now()) @map("created_at")
+
+  // Relacje
+  leaderboard Leaderboard @relation(fields: [leaderboardId], references: [id], onDelete: Cascade)
+
+  @@unique([leaderboardId, userId])
+  @@map("leaderboard_entries")
+  @@index([leaderboardId, position])
+}
