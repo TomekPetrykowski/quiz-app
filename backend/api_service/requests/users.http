@@ -1,0 +1,42 @@
+@userId = cmbnkw1ft0000dst7jvqg1ri3
+
+### Get all users
+GET http://localhost:3000/v1/users HTTP/1.1
+
+### Get users with pagination
+GET http://localhost:3000/v1/users?page=1&limit=5 HTTP/1.1
+
+### Get user by ID
+GET http://localhost:3000/v1/users/{{userId}} HTTP/1.1
+
+### Create new user
+POST http://localhost:3000/v1/users HTTP/1.1
+Content-Type: application/json
+
+{
+  "keycloakId": "keycloak-user-124",
+  "email": "mike.doe@example.com",
+  "username": "mikedoe",
+  "firstName": "Mike",
+  "lastName": "Doe",
+  "avatar": "https://example.com/avatar.jpg"
+}
+
+### Update user
+PUT http://localhost:3000/v1/users/{{userId}} HTTP/1.1
+Content-Type: application/json
+
+{
+  "firstName": "John Updated",
+  "lastName": "Doe Updated",
+  "avatar": "https://example.com/new-avatar.jpg"
+}
+
+### Deactivate user
+DELETE http://localhost:3000/v1/users/{{userId}} HTTP/1.1
+
+### Get user's quizzes
+GET http://localhost:3000/v1/users/{{userId}}/quizzes HTTP/1.1
+
+### Get user's quizzes with pagination
+GET http://localhost:3000/v1/users/{{userId}}/quizzes?page=1&limit=5 HTTP/1.1
