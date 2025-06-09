@@ -6,11 +6,8 @@ import {
   updateUser,
   deleteUser,
 } from "./controller";
-import validateRequest from "../../../middleware/validate-request";
-import {
-  createUserSchema,
-  updateUserSchema,
-} from "../../../data/request-schemas";
+import validateRequest from "@/middleware/validate-request";
+import { createUserSchema, updateUserSchema } from "@/data/request-schemas";
 
 const users: Router = express.Router();
 

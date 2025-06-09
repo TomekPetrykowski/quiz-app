@@ -1,4 +1,4 @@
-import EntityNotFoundError from "../../errors/EntityNotFoundError";
+import EntityNotFoundError from "@/errors/EntityNotFoundError";
 import BaseRepository from "./BaseRepository";
 import { Prisma } from "@prisma/client";
 import { IUser, IUserQueryParams, IUserRepository } from "./repository";

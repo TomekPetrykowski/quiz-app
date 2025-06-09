@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import Repository from "../../../data/repositories";
-import { PaginationHelper as pagination } from "../../../data/repositories/shared/PaginationHelper";
-import { BadRequestError } from "../../../errors/BadRequestError";
+import Repository from "@/data/repositories";
+import { PaginationHelper as pagination } from "@/data/repositories/shared/PaginationHelper";
+import { BadRequestError } from "@/errors/BadRequestError";
 
 export const getUsers = async (req: Request, res: Response) => {
   const page = parseInt(req.query.page as string) || 1;
