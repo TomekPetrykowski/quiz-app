@@ -4,3 +4,4 @@ dist/
 logs/
 *wymagania*
 .husky
+*coverage*
