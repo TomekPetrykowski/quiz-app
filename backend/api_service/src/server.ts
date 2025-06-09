@@ -16,6 +16,7 @@ export const createServer = () => {
 
   app.get("/health", (req: Request, res: Response) => {
     res.json({ ok: true, environment: config.env });
+    console.log("Health check endpoint hit");
   });
 
   app.use("/v1", v1);
