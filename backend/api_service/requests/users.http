@@ -1,10 +1,10 @@
-@userId = cmbo856xq0000dsp09kqdp24v
+@userId = cmbs2xjbo0000dsogbh0d7t2l
 
 ### Get all users
 GET http://localhost:3000/v1/users HTTP/1.1
 
 ### Get users with pagination
-GET http://localhost:3000/v1/users?page=2&limit=2 HTTP/1.1
+GET http://localhost:3000/v1/users?page=1&limit=2 HTTP/1.1
 
 ### Get user by ID
 GET http://localhost:3000/v1/users/{{userId}} HTTP/1.1
@@ -14,9 +14,9 @@ POST http://localhost:3000/v1/users HTTP/1.1
 Content-Type: application/json
 
 {
-  "keycloakId": "4028c181-fdd5-48a0-b8a5-3b54b49c7252",
   "email": "blabla.doe@example.com",
   "username": "blalbadoe",
+  "password": "12345678",
   "firstName": "Rick",
   "lastName": "Doe",
   "avatar": "https://example.com/avatar.jpg"
@@ -30,17 +30,7 @@ Content-Type: application/json
   "email": "blabla@gmail.com"
 }
 
-### Update user - Empty body (should fail)
-PUT http://localhost:3000/v1/users/{{userId}} HTTP/1.1
-Content-Type: application/json
-
-### Update user - Empty object (should fail)  
-PUT http://localhost:3000/v1/users/{{userId}} HTTP/1.1
-Content-Type: application/json
-
-{}
-
-### Update user - Invalid field (should fail)
+### Update user - Invalid field
 PUT http://localhost:3000/v1/users/{{userId}} HTTP/1.1
 Content-Type: application/json
 

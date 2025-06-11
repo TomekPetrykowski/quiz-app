@@ -18,9 +18,9 @@ interface IRepository {
 }
 
 export interface IUser extends IEntity {
-  keycloakId: string;
   email: string;
   username: string;
+  password: string;
   firstName?: string;
   lastName?: string;
   avatar?: string;
@@ -30,9 +30,9 @@ export interface IUser extends IEntity {
 export interface IUserQueryParams extends IQueryParams {}
 
 export interface IUserRepository extends IRepository {
-  findByKeycloakId(keycloakId: string): Promise<IUser | null>;
   findByEmail(email: string): Promise<IUser | null>;
   findByUsername(username: string): Promise<IUser | null>;
+  findByEmailOrUsername(emailOrUsername: string): Promise<IUser | null>;
   update(id: string, user: Partial<IUser>): Promise<IUser>;
   delete(id: string): Promise<IUser | null>;
   count(queryParams?: IQueryParams): Promise<number>;

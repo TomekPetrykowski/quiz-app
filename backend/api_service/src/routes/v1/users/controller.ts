@@ -14,8 +14,11 @@ export const getUsers = async (req: Request, res: Response) => {
   };
 
   const [users, total] = await Repository.user.findAll(queryParams);
+
+  const usersWithoutPassword = users.map(({ password, ...user }) => user);
+
   const response = pagination.buildPaginationResponse(
-    users,
+    usersWithoutPassword,
     total,
     page,
     limit,
@@ -24,7 +27,7 @@ export const getUsers = async (req: Request, res: Response) => {
 };
 
 export const getUserById = async (req: Request, res: Response) => {
-  const user = await Repository.user.findById(req.params.id);
+  const user = await Repository.user.findByIdWithoutPassword(req.params.id);
   res.status(200).json(user);
 };
 
@@ -47,26 +50,28 @@ export const createUser = async (req: Request, res: Response) => {
     });
   }
 
-  const existingKeycloakId = await Repository.user.findByKeycloakId(
-    req.body.keycloakId,
-  );
-
-  if (existingKeycloakId) {
-    throw new BadRequestError({
-      message: "User already exists",
-    });
-  }
-
   const newUser = await Repository.user.create(req.body);
-  res.status(201).json(newUser);
+
+  const { password, ...userWithoutPassword } = newUser;
+
+  res.status(201).json(userWithoutPassword);
 };
 
 export const updateUser = async (req: Request, res: Response) => {
   const updatedUser = await Repository.user.update(req.params.id, req.body);
-  res.status(200).json(updatedUser);
+
+  const { password, ...userWithoutPassword } = updatedUser;
+
+  res.status(200).json(userWithoutPassword);
 };
 
 export const deleteUser = async (req: Request, res: Response) => {
   const deletedUser = await Repository.user.delete(req.params.id);
-  res.status(200).send(deletedUser);
+
+  if (deletedUser) {
+    const { password, ...userWithoutPassword } = deletedUser;
+    res.status(200).send(userWithoutPassword);
+  } else {
+    res.status(200).send(null);
+  }
 };

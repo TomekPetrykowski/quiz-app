@@ -9,10 +9,24 @@ export class UserRepository
   extends BaseRepository<PrismaUser>
   implements IUserRepository
 {
-  mapToUser(user: PrismaUser): IUser {
+  private mapToUser(user: PrismaUser): IUser {
     return {
       id: user.id,
-      keycloakId: user.keycloakId,
+      email: user.email,
+      username: user.username,
+      password: user.password,
+      firstName: user.firstName || undefined,
+      lastName: user.lastName || undefined,
+      avatar: user.avatar || undefined,
+      totalScore: user.totalScore || 0,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+    };
+  }
+
+  private mapToUserWithoutPassword(user: PrismaUser): Omit<IUser, "password"> {
+    return {
+      id: user.id,
       email: user.email,
       username: user.username,
       firstName: user.firstName || undefined,
@@ -58,18 +72,6 @@ export class UserRepository
     return [mappedUsers, total];
   }
 
-  async findByKeycloakId(keycloakId: string): Promise<IUser | null> {
-    const user = await this.client.user.findUnique({
-      where: { keycloakId },
-    });
-
-    if (!user) {
-      return null;
-    }
-
-    return this.mapToUser(user);
-  }
-
   async findByEmail(email: string): Promise<IUser | null> {
     const user = await this.client.user.findUnique({
       where: { email },
@@ -94,8 +96,22 @@ export class UserRepository
     return this.mapToUser(user);
   }
 
+  async findByEmailOrUsername(emailOrUsername: string): Promise<IUser | null> {
+    const user = await this.client.user.findFirst({
+      where: {
+        OR: [{ email: emailOrUsername }, { username: emailOrUsername }],
+      },
+    });
+
+    if (!user) {
+      return null;
+    }
+
+    return this.mapToUser(user);
+  }
+
   async create(
-    entity: Omit<IUser, "id" | "createdAt" | "updatedAt | totalScore">,
+    entity: Omit<IUser, "id" | "createdAt" | "updatedAt" | "totalScore">,
   ): Promise<IUser> {
     const user = await this.client.user.create({
       data: {
@@ -106,7 +122,7 @@ export class UserRepository
     return this.mapToUser(user);
   }
 
-  async update(id: string, user: Partial<IUser>): Promise<IUser> {
+  async update(id: string, userData: Partial<IUser>): Promise<IUser> {
     const existingUser = await this.client.user.findUnique({
       where: { id },
     });
@@ -120,7 +136,7 @@ export class UserRepository
     const updatedUser = await this.client.user.update({
       where: { id },
       data: {
-        ...user,
+        ...userData,
       },
     });
 
@@ -151,5 +167,21 @@ export class UserRepository
       ...rest,
     });
     return count;
+  }
+
+  async findByIdWithoutPassword(
+    id: string,
+  ): Promise<Omit<IUser, "password"> | null> {
+    const user = await this.client.user.findUnique({
+      where: { id },
+    });
+
+    if (!user) {
+      throw new EntityNotFoundError({
+        message: `User not found`,
+      });
+    }
+
+    return this.mapToUserWithoutPassword(user);
   }
 }

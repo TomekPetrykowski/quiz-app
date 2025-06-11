@@ -16,9 +16,10 @@ datasource db {
 // Użytkownicy - integracja z Keycloak
 model User {
   id           String    @id @default(cuid())
-  keycloakId   String    @unique @map("keycloak_id") // ID z Keycloak
+  // keycloakId   String    @unique @map("keycloak_id") 
   email        String    @unique
   username     String    @unique
+  password     String   
   firstName    String?   @map("first_name")
   lastName     String?   @map("last_name")
   avatar       String?

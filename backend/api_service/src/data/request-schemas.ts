@@ -1,11 +1,6 @@
 import Joi from "joi";
 
 const user = {
-  keycloakId: Joi.string().uuid().required().trim().messages({
-    "string.empty": "Keycloak ID cannot be empty",
-    "string.uuid": "Keycloak ID must be a valid UUID",
-    "any.required": "Keycloak ID is required",
-  }),
   username: Joi.string().min(1).max(255).required().trim().messages({
     "string.empty": "Username cannot be empty",
     "string.min": "Username must be at least 1 character long",
@@ -16,6 +11,11 @@ const user = {
     "string.email": "Email must be a valid email address",
     "string.empty": "Email cannot be empty",
     "any.required": "Email is required",
+  }),
+  password: Joi.string().min(8).required().messages({
+    "string.min": "Password must be at least 8 characters long",
+    "string.empty": "Password cannot be empty",
+    "any.required": "Password is required",
   }),
   firstName: Joi.string()
     .allow(null)
@@ -38,9 +38,6 @@ const user = {
   avatar: Joi.string().uri().allow(null).optional().messages({
     "string.uri": "Avatar must be a valid URI",
   }),
-  isActive: Joi.boolean().optional().default(true).messages({
-    "boolean.base": "isActive must be a boolean value",
-  }),
   totalScore: Joi.number().integer().min(0).optional().default(0).messages({
     "number.base": "Total score must be a number",
     "number.integer": "Total score must be an integer",
@@ -62,11 +59,40 @@ export const updateUserSchema = Joi.object({
   firstName: user.firstName,
   lastName: user.lastName,
   avatar: user.avatar,
-  isActive: user.isActive,
   totalScore: user.totalScore,
+  password: Joi.string().min(8).optional().messages({
+    "string.min": "Password must be at least 8 characters long",
+    "string.empty": "Password cannot be empty",
+  }),
 })
   .min(1)
   .required()
   .messages({
     "object.min": "At least one field must be provided for update",
   });
+
+export const createLoginSchema = Joi.object({
+  email: Joi.string().email().required().messages({
+    "string.email": "Email must be a valid email address",
+    "string.empty": "Email cannot be empty",
+    "any.required": "Email is required",
+  }),
+  password: Joi.string().min(6).required().messages({
+    "string.min": "Password must be at least 6 characters long",
+    "string.empty": "Password cannot be empty",
+    "any.required": "Password is required",
+  }),
+}).messages({
+  "object.unknown": "Invalid fields provided",
+  "object.base": "Invalid login request format",
+});
+
+export const createRefreshTokenSchema = Joi.object({
+  refreshToken: Joi.string().required().messages({
+    "string.empty": "Refresh token cannot be empty",
+    "any.required": "Refresh token is required",
+  }),
+}).messages({
+  "object.unknown": "Invalid fields provided",
+  "object.base": "Invalid refresh token request format",
+});

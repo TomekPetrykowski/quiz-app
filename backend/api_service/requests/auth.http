@@ -1,0 +1,68 @@
+### Register a new user
+POST http://localhost:3000/v1/auth/register
+Content-Type: application/json
+
+{
+  "username": "testuser1",
+  "email": "test1@example.com",
+  "password": "password123",
+  "firstName": "John",
+  "lastName": "Doe"
+}
+
+### Login with email and password
+POST http://localhost:3000/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": "test1@example.com",
+  "password": "password123"
+}
+
+### Refresh access token
+POST http://localhost:3000/v1/auth/refresh-token
+Content-Type: application/json
+
+{
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWJzMnhqYm8wMDAwZHNvZ2JoMGQ3dDJsIiwiZW1haWwiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsInVzZXJuYW1lIjoidGVzdHVzZXIxIiwiaWF0IjoxNzQ5NjU0Mjc3LCJleHAiOjE3NTAyNTkwNzd9.omMLe_dXRNAuaRg5kty5HhT9V887M9yYkipZEr6tCIY"
+}
+
+### Get current user profile (requires authentication)
+GET http://localhost:3000/v1/auth/profile
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWJzMnhqYm8wMDAwZHNvZ2JoMGQ3dDJsIiwiZW1haWwiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsInVzZXJuYW1lIjoidGVzdHVzZXIxIiwiaWF0IjoxNzQ5NjU0MzMzLCJleHAiOjE3NDk2NTUyMzN9.IjwIiRqt950r3Pm12dK7lqRAWYmk5KtWPHXS5ziP6KU
+
+### Test registration with duplicate email
+POST http://localhost:3000/v1/auth/register
+Content-Type: application/json
+
+{
+  "username": "differentuser",
+  "email": "test@example.com",
+  "password": "password123",
+  "firstName": "Jane",
+  "lastName": "Smith"
+}
+
+### Test login with wrong password
+POST http://localhost:3000/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "wrongpassword"
+}
+
+### Test profile access without token
+GET http://localhost:3000/v1/auth/profile
+
+### Test profile access with invalid token
+GET http://localhost:3000/v1/auth/profile
+Authorization: Bearer invalid.token.here
+
+### Test refresh with invalid token
+POST http://localhost:3000/v1/auth/refresh-token
+Content-Type: application/json
+
+{
+  "refreshToken": "invalid.refresh.token"
+}
