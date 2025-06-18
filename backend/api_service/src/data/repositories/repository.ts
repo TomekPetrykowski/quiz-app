@@ -17,6 +17,16 @@ interface IRepository {
   ): Promise<IEntity>;
 }
 
+type QuizDifficulty = "BEGINNER" | "INTERMEDIATE" | "ADVANCED" | "EXPERT";
+type QuizStatus = "DRAFT" | "PUBLISHED" | "ARCHIVED";
+type QuizPrivacy = "PUBLIC" | "PRIVATE" | "GROUP_ONLY";
+type QuestionType =
+  | "SINGLE_CHOICE"
+  | "MULTIPLE_CHOICE"
+  | "TRUE_FALSE"
+  | "OPEN_TEXT"
+  | "FILL_BLANK";
+
 export interface IUser extends IEntity {
   email: string;
   username: string;
