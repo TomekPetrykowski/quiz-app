@@ -3,6 +3,8 @@ import BaseRepository from "./BaseRepository";
 import EntityNotFoundError from "@/errors/EntityNotFoundError";
 import { BadRequestError } from "@/errors/BadRequestError";
 import { IPaginationParams } from "./shared/PaginationHelper";
+import Repository from ".";
+import logger from "@/logger";
 
 type PrismaQuizAttempt = Prisma.QuizAttemptGetPayload<{
   include: {
@@ -943,6 +945,14 @@ export class QuizAttemptRepository extends BaseRepository<PrismaQuizAttempt> {
         },
       },
     });
+
+    try {
+      await Repository.achievement.checkAndAwardAchievements(attempt.userId);
+    } catch (error) {
+      logger.error(
+        `Error checking achievements for user ${attempt.userId}: ${error}`,
+      );
+    }
 
     return this.mapToQuizAttempt(completedAttempt);
   }

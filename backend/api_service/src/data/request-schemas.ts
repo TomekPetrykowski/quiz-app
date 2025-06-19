@@ -451,3 +451,139 @@ export const updateAttemptStatusSchema = Joi.object({
     "number.min": "Time spent cannot be negative",
   }),
 });
+
+export const createAchievementSchema = Joi.object({
+  name: Joi.string().min(3).max(100).required().messages({
+    "string.empty": "Name cannot be empty",
+    "string.min": "Name must be at least 3 characters long",
+    "string.max": "Name must be at most 100 characters long",
+    "any.required": "Name is required",
+  }),
+  description: Joi.string().min(5).max(500).required().messages({
+    "string.empty": "Description cannot be empty",
+    "string.min": "Description must be at least 5 characters long",
+    "string.max": "Description must be at most 500 characters long",
+    "any.required": "Description is required",
+  }),
+  type: Joi.string()
+    .valid(
+      "QUIZ_COMPLETION",
+      "SCORE_MILESTONE",
+      "STREAK",
+      "CATEGORY_MASTER",
+      "TIME_CHALLENGE",
+    )
+    .required()
+    .messages({
+      "any.only": "Type must be one of the allowed values",
+      "any.required": "Type is required",
+    }),
+  icon: Joi.string().allow(null, "").optional(),
+  points: Joi.number().integer().min(0).default(0).optional().messages({
+    "number.base": "Points must be a number",
+    "number.integer": "Points must be an integer",
+    "number.min": "Points cannot be negative",
+  }),
+  requirement: Joi.object().required().messages({
+    "any.required": "Requirement object is required",
+  }),
+  isActive: Joi.boolean().default(true).optional(),
+});
+
+export const updateAchievementSchema = Joi.object({
+  name: Joi.string().min(3).max(100).optional().messages({
+    "string.empty": "Name cannot be empty",
+    "string.min": "Name must be at least 3 characters long",
+    "string.max": "Name must be at most 100 characters long",
+  }),
+  description: Joi.string().min(5).max(500).optional().messages({
+    "string.empty": "Description cannot be empty",
+    "string.min": "Description must be at least 5 characters long",
+    "string.max": "Description must be at most 500 characters long",
+  }),
+  type: Joi.string()
+    .valid(
+      "QUIZ_COMPLETION",
+      "SCORE_MILESTONE",
+      "STREAK",
+      "CATEGORY_MASTER",
+      "TIME_CHALLENGE",
+    )
+    .optional()
+    .messages({
+      "any.only": "Type must be one of the allowed values",
+    }),
+  icon: Joi.string().allow(null, "").optional(),
+  points: Joi.number().integer().min(0).optional().messages({
+    "number.base": "Points must be a number",
+    "number.integer": "Points must be an integer",
+    "number.min": "Points cannot be negative",
+  }),
+  requirement: Joi.object().optional(),
+  isActive: Joi.boolean().optional(),
+})
+  .min(1)
+  .required()
+  .messages({
+    "object.min": "At least one field must be provided for update",
+  });
+
+export const createLeaderboardSchema = Joi.object({
+  name: Joi.string().min(3).max(100).required().messages({
+    "string.empty": "Name cannot be empty",
+    "string.min": "Name must be at least 3 characters long",
+    "string.max": "Name must be at most 100 characters long",
+    "any.required": "Name is required",
+  }),
+  type: Joi.string()
+    .valid("GLOBAL", "CATEGORY", "WEEKLY", "MONTHLY")
+    .required()
+    .messages({
+      "any.only": "Type must be one of: GLOBAL, CATEGORY, WEEKLY, MONTHLY",
+      "any.required": "Type is required",
+    }),
+  period: Joi.string().allow(null, "").optional(),
+  categoryId: Joi.string().allow(null).optional(),
+  isActive: Joi.boolean().default(true).optional(),
+}).custom((value, helpers) => {
+  if (value.type === "CATEGORY" && !value.categoryId) {
+    return helpers.error("any.custom", {
+      message: "Category ID is required for category leaderboards",
+    });
+  }
+  return value;
+});
+
+export const updateLeaderboardSchema = Joi.object({
+  name: Joi.string().min(3).max(100).optional().messages({
+    "string.empty": "Name cannot be empty",
+    "string.min": "Name must be at least 3 characters long",
+    "string.max": "Name must be at most 100 characters long",
+  }),
+  type: Joi.string()
+    .valid("GLOBAL", "CATEGORY", "WEEKLY", "MONTHLY")
+    .optional()
+    .messages({
+      "any.only": "Type must be one of: GLOBAL, CATEGORY, WEEKLY, MONTHLY",
+    }),
+  period: Joi.string().allow(null, "").optional(),
+  categoryId: Joi.string().allow(null).optional(),
+  isActive: Joi.boolean().optional(),
+})
+  .min(1)
+  .required()
+  .messages({
+    "object.min": "At least one field must be provided for update",
+  })
+  .custom((value, helpers) => {
+    // If type is CATEGORY, categoryId is required
+    if (value.type === "CATEGORY" && value.categoryId === undefined) {
+      // Check if categoryId is explicitly set to null
+      if (value.categoryId === null) {
+        return helpers.error("any.custom", {
+          message: "Category ID is required for category leaderboards",
+        });
+      }
+    }
+    return value;
+  });

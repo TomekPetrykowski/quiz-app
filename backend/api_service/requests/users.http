@@ -1,4 +1,4 @@
-@userId = cmbs2xjbo0000dsogbh0d7t2l
+@userId = cmc39itx40000dsrx7drd4csu
 
 ### Get all users
 GET http://localhost:3000/v1/users HTTP/1.1

@@ -1,0 +1,60 @@
+@baseUrl = http://localhost:3000/v1
+@leaderboardId = cmc3v0ouf000bdsbmzjo28ys9
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWMzOWl0eDQwMDAwZHNyeDdkcmQ0Y3N1IiwiZW1haWwiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsInVzZXJuYW1lIjoidGVzdHVzZXIxIiwiaWF0IjoxNzUwMzY2NTQ2LCJleHAiOjE3NTAzNjc0NDZ9.nWfcpukDAlL2hp7F1wZKq0YzITkmreKBdYAbqJOw6TE
+
+### Get all leaderboards
+GET {{baseUrl}}/leaderboards HTTP/1.1
+
+### Get active global leaderboards
+GET {{baseUrl}}/leaderboards?type=GLOBAL&isActive=true HTTP/1.1
+
+### Get weekly leaderboards
+GET {{baseUrl}}/leaderboards?type=WEEKLY HTTP/1.1
+
+### Get leaderboard by ID
+GET {{baseUrl}}/leaderboards/{{leaderboardId}} HTTP/1.1
+
+### Get leaderboard entries (rankings)
+GET {{baseUrl}}/leaderboards/{{leaderboardId}}/entries HTTP/1.1
+
+### Get current user's position on global leaderboard
+GET {{baseUrl}}/leaderboards/user/position?type=GLOBAL HTTP/1.1
+Authorization: Bearer {{token}}
+
+### Get current user's position on category leaderboard
+GET {{baseUrl}}/leaderboards/user/position?type=CATEGORY&categoryId=your-category-id HTTP/1.1
+Authorization: Bearer {{token}}
+
+### Initialize system leaderboards
+POST {{baseUrl}}/leaderboards/initialize-system HTTP/1.1
+Authorization: Bearer {{token}}
+
+### Create new leaderboard
+POST {{baseUrl}}/leaderboards HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Python",
+  "type": "CATEGORY",
+  "categoryId": "cmc3aqhm70005dsbsgsmlpfxq",
+  "isActive": true
+}
+
+### Update leaderboard
+PUT {{baseUrl}}/leaderboards/{{leaderboardId}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Updated Python",
+  "isActive": true
+}
+
+### Recalculate leaderboard rankings
+POST {{baseUrl}}/leaderboards/{{leaderboardId}}/update HTTP/1.1
+Authorization: Bearer {{token}}
+
+### Delete leaderboard
+DELETE {{baseUrl}}/leaderboards/{{leaderboardId}} HTTP/1.1
+Authorization: Bearer {{token}}
