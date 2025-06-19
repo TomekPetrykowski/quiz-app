@@ -96,3 +96,163 @@ export const createRefreshTokenSchema = Joi.object({
   "object.unknown": "Invalid fields provided",
   "object.base": "Invalid refresh token request format",
 });
+
+export const createQuizSchema = Joi.object({
+  title: Joi.string().min(3).max(255).required().messages({
+    "string.empty": "Title cannot be empty",
+    "string.min": "Title must be at least 3 characters long",
+    "string.max": "Title must be at most 255 characters long",
+    "any.required": "Title is required",
+  }),
+  description: Joi.string().allow(null, "").max(2000).optional().messages({
+    "string.max": "Description must be at most 2000 characters long",
+  }),
+  categoryId: Joi.string().required().messages({
+    "string.empty": "Category ID cannot be empty",
+    "any.required": "Category ID is required",
+  }),
+  difficulty: Joi.string()
+    .valid("BEGINNER", "INTERMEDIATE", "ADVANCED", "EXPERT")
+    .required()
+    .messages({
+      "string.empty": "Difficulty cannot be empty",
+      "any.required": "Difficulty is required",
+      "any.only":
+        "Difficulty must be one of: BEGINNER, INTERMEDIATE, ADVANCED, EXPERT",
+    }),
+  privacy: Joi.string()
+    .valid("PUBLIC", "PRIVATE", "GROUP_ONLY")
+    .default("PUBLIC")
+    .messages({
+      "any.only": "Privacy must be one of: PUBLIC, PRIVATE, GROUP_ONLY",
+    }),
+  timeLimit: Joi.number().integer().min(0).allow(null).optional().messages({
+    "number.base": "Time limit must be a number",
+    "number.integer": "Time limit must be an integer",
+    "number.min": "Time limit cannot be negative",
+  }),
+  passingScore: Joi.number()
+    .integer()
+    .min(0)
+    .max(100)
+    .allow(null)
+    .optional()
+    .messages({
+      "number.base": "Passing score must be a number",
+      "number.integer": "Passing score must be an integer",
+      "number.min": "Passing score cannot be negative",
+      "number.max": "Passing score cannot exceed 100",
+    }),
+  maxAttempts: Joi.number().integer().min(0).allow(null).optional().messages({
+    "number.base": "Max attempts must be a number",
+    "number.integer": "Max attempts must be an integer",
+    "number.min": "Max attempts cannot be negative",
+  }),
+  isShuffled: Joi.boolean().default(false).optional(),
+  showAnswers: Joi.boolean().default(true).optional(),
+  status: Joi.string()
+    .valid("DRAFT", "PUBLISHED", "ARCHIVED")
+    .default("DRAFT")
+    .optional(),
+});
+
+export const updateQuizSchema = Joi.object({
+  title: Joi.string().min(3).max(255).optional().messages({
+    "string.min": "Title must be at least 3 characters long",
+    "string.max": "Title must be at most 255 characters long",
+  }),
+  description: Joi.string().allow(null, "").max(2000).optional().messages({
+    "string.max": "Description must be at most 2000 characters long",
+  }),
+  categoryId: Joi.string().optional(),
+  difficulty: Joi.string()
+    .valid("BEGINNER", "INTERMEDIATE", "ADVANCED", "EXPERT")
+    .optional()
+    .messages({
+      "any.only":
+        "Difficulty must be one of: BEGINNER, INTERMEDIATE, ADVANCED, EXPERT",
+    }),
+  privacy: Joi.string()
+    .valid("PUBLIC", "PRIVATE", "GROUP_ONLY")
+    .optional()
+    .messages({
+      "any.only": "Privacy must be one of: PUBLIC, PRIVATE, GROUP_ONLY",
+    }),
+  timeLimit: Joi.number().integer().min(0).allow(null).optional().messages({
+    "number.base": "Time limit must be a number",
+    "number.integer": "Time limit must be an integer",
+    "number.min": "Time limit cannot be negative",
+  }),
+  passingScore: Joi.number()
+    .integer()
+    .min(0)
+    .max(100)
+    .allow(null)
+    .optional()
+    .messages({
+      "number.base": "Passing score must be a number",
+      "number.integer": "Passing score must be an integer",
+      "number.min": "Passing score cannot be negative",
+      "number.max": "Passing score cannot exceed 100",
+    }),
+  maxAttempts: Joi.number().integer().min(0).allow(null).optional().messages({
+    "number.base": "Max attempts must be a number",
+    "number.integer": "Max attempts must be an integer",
+    "number.min": "Max attempts cannot be negative",
+  }),
+  isShuffled: Joi.boolean().optional(),
+  showAnswers: Joi.boolean().optional(),
+  status: Joi.string()
+    .valid("DRAFT", "PUBLISHED", "ARCHIVED")
+    .optional()
+    .messages({
+      "any.only": "Status must be one of: DRAFT, PUBLISHED, ARCHIVED",
+    }),
+})
+  .min(1)
+  .required()
+  .messages({
+    "object.min": "At least one field must be provided for update",
+  });
+
+export const quizTagsSchema = Joi.object({
+  tagIds: Joi.array().items(Joi.string()).min(1).required().messages({
+    "array.base": "Tag IDs must be an array",
+    "array.min": "At least one tag ID is required",
+    "any.required": "Tag IDs are required",
+  }),
+});
+
+export const createCategorySchema = Joi.object({
+  name: Joi.string().min(2).max(100).required().messages({
+    "string.empty": "Category name cannot be empty",
+    "string.min": "Category name must be at least 2 characters long",
+    "string.max": "Category name must be at most 100 characters long",
+    "any.required": "Category name is required",
+  }),
+  description: Joi.string().allow(null, "").max(1000).optional().messages({
+    "string.max": "Description must be at most 1000 characters long",
+  }),
+  parentId: Joi.string().allow(null).optional().messages({
+    "string.empty": "Parent category ID cannot be empty",
+  }),
+});
+
+export const updateCategorySchema = Joi.object({
+  name: Joi.string().min(2).max(100).optional().messages({
+    "string.empty": "Category name cannot be empty",
+    "string.min": "Category name must be at least 2 characters long",
+    "string.max": "Category name must be at most 100 characters long",
+  }),
+  description: Joi.string().allow(null, "").max(1000).optional().messages({
+    "string.max": "Description must be at most 1000 characters long",
+  }),
+  parentId: Joi.string().allow(null).optional().messages({
+    "string.empty": "Parent category ID cannot be empty",
+  }),
+})
+  .min(1)
+  .required()
+  .messages({
+    "object.min": "At least one field must be provided for update",
+  });

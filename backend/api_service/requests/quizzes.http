@@ -1,0 +1,67 @@
+@baseUrl = http://localhost:3000/v1
+@quizId = cmc3b5zhd000ddsbsho766qpj
+@categoryId = cmc3aphu40003dsbsbkj6afjf
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWMzOWl0eDQwMDAwZHNyeDdkcmQ0Y3N1IiwiZW1haWwiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsInVzZXJuYW1lIjoidGVzdHVzZXIxIiwiaWF0IjoxNzUwMzMyNzMwLCJleHAiOjE3NTAzMzM2MzB9.Ayo0uqtJahE2AA0MxP52CDyKwfCmbljd4B9qQwNms4I
+
+### Get all quizzes
+GET {{baseUrl}}/quizzes HTTP/1.1
+
+### Get quizzes with filters
+GET {{baseUrl}}/quizzes?categoryId={{categoryId}}&difficulty=BEGINNER&page=1&limit=10 HTTP/1.1
+
+### Search quizzes
+GET {{baseUrl}}/quizzes?search=javascript HTTP/1.1
+
+### Get quiz by ID
+GET {{baseUrl}}/quizzes/{{quizId}} HTTP/1.1
+
+### Create new quiz
+POST {{baseUrl}}/quizzes HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "title": "JavaScript Basics Quiz",
+  "description": "Test your knowledge of JavaScript fundamentals",
+  "categoryId": "{{categoryId}}",
+  "difficulty": "BEGINNER",
+  "privacy": "PUBLIC",
+  "timeLimit": 600,
+  "passingScore": 70,
+  "maxAttempts": 3,
+  "isShuffled": true,
+  "showAnswers": true
+}
+
+### Update quiz
+PUT {{baseUrl}}/quizzes/{{quizId}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "title": "JavaScript Fundamentals Quiz",
+  "description": "Updated description",
+  "difficulty": "INTERMEDIATE"
+}
+
+### Delete quiz
+DELETE {{baseUrl}}/quizzes/{{quizId}} HTTP/1.1
+Authorization: Bearer {{token}}
+
+### Add tags to quiz
+POST {{baseUrl}}/quizzes/{{quizId}}/tags HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "tagIds": ["tag-id-1", "tag-id-2"]
+}
+
+### Remove tags from quiz
+DELETE {{baseUrl}}/quizzes/{{quizId}}/tags HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "tagIds": ["tag-id-1"]
+}

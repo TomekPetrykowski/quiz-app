@@ -17,9 +17,6 @@ interface IRepository {
   ): Promise<IEntity>;
 }
 
-type QuizDifficulty = "BEGINNER" | "INTERMEDIATE" | "ADVANCED" | "EXPERT";
-type QuizStatus = "DRAFT" | "PUBLISHED" | "ARCHIVED";
-type QuizPrivacy = "PUBLIC" | "PRIVATE" | "GROUP_ONLY";
 type QuestionType =
   | "SINGLE_CHOICE"
   | "MULTIPLE_CHOICE"

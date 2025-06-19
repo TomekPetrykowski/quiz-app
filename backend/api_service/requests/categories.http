@@ -1,0 +1,57 @@
+@baseUrl = http://localhost:3000/v1
+@categoryId = cmc3aukbp0007dsbs1sfaffa7
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWMzOWl0eDQwMDAwZHNyeDdkcmQ0Y3N1IiwiZW1haWwiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsInVzZXJuYW1lIjoidGVzdHVzZXIxIiwiaWF0IjoxNzUwMzMyMzI3LCJleHAiOjE3NTAzMzMyMjd9.w_IxKc8AMHXjrd6jbjTaFKUuyi88zbnIqPPDB4JH1KU
+
+### Get all categories
+GET {{baseUrl}}/categories HTTP/1.1
+
+### Get root categories
+GET {{baseUrl}}/categories?parentId=null HTTP/1.1
+
+### Get subcategories of a specific category
+GET {{baseUrl}}/categories?parentId={{categoryId}} HTTP/1.1
+
+### Search categories
+GET {{baseUrl}}/categories?search=python HTTP/1.1
+
+### Get category hierarchy (root categories)
+GET {{baseUrl}}/categories/hierarchy HTTP/1.1
+
+### Get category by ID
+GET {{baseUrl}}/categories/{{categoryId}} HTTP/1.1
+
+### Create new category
+POST {{baseUrl}}/categories HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Programming",
+  "description": "Programming related quizzes",
+  "parentId": null
+}
+
+### Create subcategory
+POST {{baseUrl}}/categories HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Python Lists",
+  "description": "Python programming language quizzes",
+  "parentId": "{{categoryId}}"
+}
+
+### Update category
+PUT {{baseUrl}}/categories/{{categoryId}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Python Updated",
+  "description": "Updated description"
+}
+
+### Delete category
+DELETE {{baseUrl}}/categories/{{categoryId}} HTTP/1.1
+Authorization: Bearer {{token}}
