@@ -52,8 +52,6 @@ export const getUserAttempts = async (
 
   const userId = req.params.userId || req.user.userId;
 
-  logger.error("====== LOGGER ERROR TEST ======");
-
   if (userId !== req.user.userId) {
     throw new AuthenticationError({
       message: "You can only view your own attempts",

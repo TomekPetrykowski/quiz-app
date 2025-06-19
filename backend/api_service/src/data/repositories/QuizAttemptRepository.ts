@@ -3,7 +3,6 @@ import BaseRepository from "./BaseRepository";
 import EntityNotFoundError from "@/errors/EntityNotFoundError";
 import { BadRequestError } from "@/errors/BadRequestError";
 import { IPaginationParams } from "./shared/PaginationHelper";
-import logger from "@/logger";
 
 type PrismaQuizAttempt = Prisma.QuizAttemptGetPayload<{
   include: {
@@ -303,9 +302,6 @@ export class QuizAttemptRepository extends BaseRepository<PrismaQuizAttempt> {
   ): Promise<IQuizAttempt[]> {
     const where: Prisma.QuizAttemptWhereInput = { userId };
     if (quizId) where.quizId = quizId;
-
-    logger.info("Finding user attempts with where:", where);
-    // console.log("Finding user attempts with where:", where);
 
     const attempts = await this.client.quizAttempt.findMany({
       where,
