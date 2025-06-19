@@ -4,6 +4,7 @@ import { QuizRepository } from "./QuizRepository";
 import { CategoryRepository } from "./CategoryRepository";
 import { TagRepository } from "./TagRepository";
 import { QuestionRepository } from "./QuestionRepository";
+import { QuizAttemptRepository } from "./QuizAttemptRepository";
 
 const client = new PrismaClient();
 
@@ -13,6 +14,7 @@ const Repository = {
   category: new CategoryRepository(client),
   tag: new TagRepository(client),
   question: new QuestionRepository(client),
+  quizAttempt: new QuizAttemptRepository(client),
 };
 
 export default Repository;

@@ -419,3 +419,35 @@ export const reorderQuestionsSchema = Joi.object({
 }).messages({
   "object.unknown": "Invalid fields provided",
 });
+
+export const submitAnswerSchema = Joi.object({
+  questionId: Joi.string().required().messages({
+    "string.empty": "Question ID cannot be empty",
+    "any.required": "Question ID is required",
+  }),
+  answerId: Joi.string().allow(null).optional(),
+  answerIds: Joi.array().items(Joi.string()).allow(null).optional(),
+  textAnswer: Joi.string().allow(null, "").optional(),
+  timeSpent: Joi.number().integer().min(0).allow(null).optional().messages({
+    "number.base": "Time spent must be a number",
+    "number.integer": "Time spent must be an integer",
+    "number.min": "Time spent cannot be negative",
+  }),
+}).custom((value, helpers) => {
+  // At least one of answerId, answerIds, or textAnswer must be provided
+  if (!value.answerId && !value.answerIds?.length && !value.textAnswer) {
+    return helpers.error("object.missing", {
+      message:
+        "At least one of answerId, answerIds, or textAnswer must be provided",
+    });
+  }
+  return value;
+});
+
+export const updateAttemptStatusSchema = Joi.object({
+  timeSpent: Joi.number().integer().min(0).allow(null).optional().messages({
+    "number.base": "Time spent must be a number",
+    "number.integer": "Time spent must be an integer",
+    "number.min": "Time spent cannot be negative",
+  }),
+});

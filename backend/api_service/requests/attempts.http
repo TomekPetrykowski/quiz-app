@@ -1,0 +1,96 @@
+@baseUrl = http://localhost:3000/v1
+@quizId = cmc3b5zhd000ddsbsho766qpj
+@attemptId = cmc3orw9k0007dsjerl4937xg
+@questionId = cmc3fy5ev0007dsp13a5562tn
+@answerId = cmc3fymx8000edsp1ip9kh9eo
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWMzOWl0eDQwMDAwZHNyeDdkcmQ0Y3N1IiwiZW1haWwiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsInVzZXJuYW1lIjoidGVzdHVzZXIxIiwiaWF0IjoxNzUwMzU1MjI1LCJleHAiOjE3NTAzNTYxMjV9.R6tyhA-13zjLp1gf8qwaF3fP32wyf1IlTwP2j0QdhMk
+### Get all quiz attempts with filters
+GET {{baseUrl}}/attempts?quizId={{quizId}} HTTP/1.1
+
+### Get specific quiz attempt by ID
+GET {{baseUrl}}/attempts/{{attemptId}} HTTP/1.1
+
+### Get current user's quiz attempts
+GET {{baseUrl}}/attempts/user HTTP/1.1
+Authorization: Bearer {{token}}
+
+### Get quiz attempts for specific quiz (for current user)
+GET {{baseUrl}}/attempts/user?quizId={{quizId}} HTTP/1.1
+Authorization: Bearer {{token}}
+
+### Start a new quiz attempt
+POST {{baseUrl}}/attempts/quiz/{{quizId}}/start HTTP/1.1
+Authorization: Bearer {{token}}
+
+### Submit an answer to a question
+POST {{baseUrl}}/attempts/{{attemptId}}/submit HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "questionId": "{{questionId}}",
+  "answerId": "{{answerId}}",
+  "timeSpent": 15
+}
+
+### Submit a multiple choice answer
+POST {{baseUrl}}/attempts/{{attemptId}}/submit HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "questionId": "{{questionId}}",
+  "answerIds": ["cmc3fy5ey0008dsp1mw62jh7i", "cmc3fy5ey0009dsp18x77lbqx"],
+  "timeSpent": 25
+}
+
+### Submit a text answer
+POST {{baseUrl}}/attempts/{{attemptId}}/submit HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "questionId": "{{questionId}}",
+  "textAnswer": "Paris",
+  "timeSpent": 20
+}
+
+### Complete a quiz attempt
+POST {{baseUrl}}/attempts/{{attemptId}}/complete HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "timeSpent": 300
+}
+
+### Pause a quiz attempt
+POST {{baseUrl}}/attempts/{{attemptId}}/pause HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "timeSpent": 150
+}
+
+### Abandon a quiz attempt
+POST {{baseUrl}}/attempts/{{attemptId}}/abandon HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "timeSpent": 120
+}
+
+
+### Mark quiz attempt as time expired
+POST {{baseUrl}}/attempts/{{attemptId}}/time-expired HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "timeSpent": 600
+}
+
+### Get stats for a quiz
+GET {{baseUrl}}/attempts/quiz/{{quizId}}/stats HTTP/1.1
