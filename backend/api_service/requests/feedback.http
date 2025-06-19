@@ -1,0 +1,10 @@
+### Submit feedback (POST)
+POST http://localhost:3000/v1/feedback
+Content-Type: application/json
+
+{
+  "message": "This is a test feedback message from API service!"
+}
+
+### Get all feedback (GET)
+GET http://localhost:3000/v1/feedback

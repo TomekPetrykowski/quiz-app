@@ -8,6 +8,7 @@ import questions from "./questions";
 import quizAttempts from "./attempts";
 import achievements from "./achievements";
 import leaderboards from "./leaderboards";
+import feedback from "./feedback";
 
 const v1: Router = express.Router();
 
@@ -20,5 +21,6 @@ v1.use("/questions", questions);
 v1.use("/attempts", quizAttempts);
 v1.use("/achievements", achievements);
 v1.use("/leaderboards", leaderboards);
+v1.use("/feedback", feedback);
 
 export default v1;

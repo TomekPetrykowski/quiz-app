@@ -5,6 +5,8 @@ const config = {
   debug: process.env.APP_DEBUG === "true",
   jwtSecret: process.env.JWT_SECRET || "",
   jwtRefreshSecret: process.env.JWT_REFRESH_SECRET || "",
+  feedbackApiUrl: process.env.FEEDBACK_API_URL || "",
+  feedbackApiKey: process.env.FEEDBACK_API_KEY || "",
 };
 
 export default config;
