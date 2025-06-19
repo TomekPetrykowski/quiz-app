@@ -1,0 +1,178 @@
+@baseUrl = http://localhost:3000/v1
+@quizId = cmc3b5zhd000ddsbsho766qpj
+@questionId = cmc3fxog20001dsp1z1y0xsv4
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWMzOWl0eDQwMDAwZHNyeDdkcmQ0Y3N1IiwiZW1haWwiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsInVzZXJuYW1lIjoidGVzdHVzZXIxIiwiaWF0IjoxNzUwMzQxMDg5LCJleHAiOjE3NTAzNDE5ODl9.BvfUkTgOL2wjw7cjvvgIAUMar8uk-4eqLrbI7LBn13g
+
+### Get questions for a quiz
+GET {{baseUrl}}/questions?quizId={{quizId}} HTTP/1.1
+
+### Get questions for a quiz (alternative endpoint)
+GET {{baseUrl}}/questions/quiz/{{quizId}} HTTP/1.1
+
+### Get specific question by ID
+GET {{baseUrl}}/questions/{{questionId}} HTTP/1.1
+
+### Create new single choice question
+POST {{baseUrl}}/questions HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "quizId": "{{quizId}}",
+  "type": "SINGLE_CHOICE",
+  "question": "What is the capital of France?",
+  "explanation": "Paris is the capital and most populous city of France.",
+  "points": 2,
+  "timeLimit": 30,
+  "isRequired": true,
+  "answers": [
+    {
+      "text": "London",
+      "isCorrect": false,
+      "order": 1
+    },
+    {
+      "text": "Paris",
+      "isCorrect": true,
+      "order": 2
+    },
+    {
+      "text": "Berlin",
+      "isCorrect": false,
+      "order": 3
+    },
+    {
+      "text": "Madrid",
+      "isCorrect": false,
+      "order": 4
+    }
+  ]
+}
+
+### Create new multiple choice question
+POST {{baseUrl}}/questions HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "quizId": "{{quizId}}",
+  "type": "MULTIPLE_CHOICE",
+  "question": "Which of the following are JavaScript frameworks?",
+  "points": 3,
+  "answers": [
+    {
+      "text": "React",
+      "isCorrect": true,
+      "order": 1
+    },
+    {
+      "text": "Angular",
+      "isCorrect": true,
+      "order": 2
+    },
+    {
+      "text": "Python",
+      "isCorrect": false,
+      "order": 3
+    },
+    {
+      "text": "Vue.js",
+      "isCorrect": true,
+      "order": 4
+    }
+  ]
+}
+
+### Create new true/false question
+POST {{baseUrl}}/questions HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "quizId": "{{quizId}}",
+  "type": "TRUE_FALSE",
+  "question": "JavaScript was created in 1995.",
+  "points": 1,
+  "answers": [
+    {
+      "text": "True",
+      "isCorrect": true,
+      "order": 1
+    },
+    {
+      "text": "False",
+      "isCorrect": false,
+      "order": 2
+    }
+  ]
+}
+
+### Create new open text question
+POST {{baseUrl}}/questions HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "quizId": "{{quizId}}",
+  "type": "OPEN_TEXT",
+  "question": "Name the founder of Microsoft.",
+  "points": 2,
+  "answers": [
+    {
+      "text": "Bill Gates",
+      "isCorrect": true,
+      "order": 1
+    }
+  ]
+}
+
+### Update question
+PUT {{baseUrl}}/questions/{{questionId}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "question": "Updated question text",
+  "explanation": "Updated explanation",
+  "points": 3,
+  "answers": [
+    {
+      "id": "cmc3fxogc0002dsp1c14vykd6",
+      "text": "Updated answer 1",
+      "isCorrect": true,
+      "order": 2
+    },
+    {
+      "id": "cmc3fxogc0003dsp1qfslqc2f",
+      "text": "Updated answer 1",
+      "isCorrect": false,
+      "order": 1
+    }
+  ]
+}
+
+### Delete question
+DELETE {{baseUrl}}/questions/{{questionId}} HTTP/1.1
+Authorization: Bearer {{token}}
+
+### Reorder questions in a quiz
+POST {{baseUrl}}/questions/quiz/{{quizId}}/reorder HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "questions": [
+    {
+      "id": "cmc3fxog20001dsp1z1y0xsv4",
+      "order": 3
+    },
+    {
+      "id": "cmc3fy5ev0007dsp13a5562tn",
+      "order": 1
+    },
+    {
+      "id": "cmc3fymx5000ddsp1r8tdgu2s",
+      "order": 2
+    }
+  ]
+}

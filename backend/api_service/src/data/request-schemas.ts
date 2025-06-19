@@ -294,3 +294,128 @@ export const updateTagSchema = Joi.object({
   .messages({
     "object.min": "At least one field must be provided for update",
   });
+
+export const answerSchema = Joi.object({
+  id: Joi.string().optional(),
+  text: Joi.string().required().messages({
+    "string.empty": "Answer text cannot be empty",
+    "any.required": "Answer text is required",
+  }),
+  isCorrect: Joi.boolean().required().messages({
+    "any.required": "You must specify whether the answer is correct",
+  }),
+  order: Joi.number().integer().min(1).optional().messages({
+    "number.base": "Order must be a number",
+    "number.integer": "Order must be an integer",
+    "number.min": "Order must be at least 1",
+  }),
+});
+
+export const createQuestionSchema = Joi.object({
+  quizId: Joi.string().required().messages({
+    "string.empty": "Quiz ID cannot be empty",
+    "any.required": "Quiz ID is required",
+  }),
+  type: Joi.string()
+    .valid(
+      "SINGLE_CHOICE",
+      "MULTIPLE_CHOICE",
+      "TRUE_FALSE",
+      "OPEN_TEXT",
+      "FILL_BLANK",
+    )
+    .required()
+    .messages({
+      "any.only":
+        "Question type must be one of: SINGLE_CHOICE, MULTIPLE_CHOICE, TRUE_FALSE, OPEN_TEXT, FILL_BLANK",
+      "any.required": "Question type is required",
+    }),
+  question: Joi.string().required().messages({
+    "string.empty": "Question text cannot be empty",
+    "any.required": "Question text is required",
+  }),
+  explanation: Joi.string().allow(null, "").optional(),
+  points: Joi.number().integer().min(1).default(1).optional().messages({
+    "number.base": "Points must be a number",
+    "number.integer": "Points must be an integer",
+    "number.min": "Points must be at least 1",
+  }),
+  timeLimit: Joi.number().integer().min(5).allow(null).optional().messages({
+    "number.base": "Time limit must be a number",
+    "number.integer": "Time limit must be an integer",
+    "number.min": "Time limit must be at least 5 seconds",
+  }),
+  order: Joi.number().integer().min(1).optional().messages({
+    "number.base": "Order must be a number",
+    "number.integer": "Order must be an integer",
+    "number.min": "Order must be at least 1",
+  }),
+  isRequired: Joi.boolean().default(true).optional(),
+  answers: Joi.array().items(answerSchema).required().messages({
+    "any.required": "Answers are required",
+  }),
+}).messages({
+  "object.unknown": "Invalid fields provided",
+});
+
+export const updateQuestionSchema = Joi.object({
+  type: Joi.string()
+    .valid(
+      "SINGLE_CHOICE",
+      "MULTIPLE_CHOICE",
+      "TRUE_FALSE",
+      "OPEN_TEXT",
+      "FILL_BLANK",
+    )
+    .optional()
+    .messages({
+      "any.only":
+        "Question type must be one of: SINGLE_CHOICE, MULTIPLE_CHOICE, TRUE_FALSE, OPEN_TEXT, FILL_BLANK",
+    }),
+  question: Joi.string().optional().messages({
+    "string.empty": "Question text cannot be empty",
+  }),
+  explanation: Joi.string().allow(null, "").optional(),
+  points: Joi.number().integer().min(1).optional().messages({
+    "number.base": "Points must be a number",
+    "number.integer": "Points must be an integer",
+    "number.min": "Points must be at least 1",
+  }),
+  timeLimit: Joi.number().integer().min(5).allow(null).optional().messages({
+    "number.base": "Time limit must be a number",
+    "number.integer": "Time limit must be an integer",
+    "number.min": "Time limit must be at least 5 seconds",
+  }),
+  order: Joi.number().integer().min(1).optional().messages({
+    "number.base": "Order must be a number",
+    "number.integer": "Order must be an integer",
+    "number.min": "Order must be at least 1",
+  }),
+  isRequired: Joi.boolean().optional(),
+  answers: Joi.array().items(answerSchema).optional(),
+})
+  .min(1)
+  .required()
+  .messages({
+    "object.min": "At least one field must be provided for update",
+    "object.unknown": "Invalid fields provided",
+  });
+
+export const reorderQuestionsSchema = Joi.object({
+  questions: Joi.array()
+    .items(
+      Joi.object({
+        id: Joi.string().required(),
+        order: Joi.number().integer().min(1).required(),
+      }),
+    )
+    .min(1)
+    .required()
+    .messages({
+      "array.base": "Questions must be an array",
+      "array.min": "At least one question order must be provided",
+      "any.required": "Questions are required",
+    }),
+}).messages({
+  "object.unknown": "Invalid fields provided",
+});
