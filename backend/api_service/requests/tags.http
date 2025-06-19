@@ -1,0 +1,39 @@
+@baseUrl = http://localhost:3000/v1
+@tagId = cmc3c7dyn0001dskndac3ocn9
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWMzOWl0eDQwMDAwZHNyeDdkcmQ0Y3N1IiwiZW1haWwiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsInVzZXJuYW1lIjoidGVzdHVzZXIxIiwiaWF0IjoxNzUwMzM0ODU5LCJleHAiOjE3NTAzMzU3NTl9.5_YcD4cBRhUvLeeE5fXQ3YXtwuriVwDIVrfNI5jd_PE
+
+### Get all tags
+GET {{baseUrl}}/tags HTTP/1.1
+
+### Search tags
+GET {{baseUrl}}/tags?search=python HTTP/1.1
+
+### Get popular tags
+GET {{baseUrl}}/tags/popular HTTP/1.1
+
+### Get tag by ID
+GET {{baseUrl}}/tags/{{tagId}} HTTP/1.1
+
+### Create new tag
+POST {{baseUrl}}/tags HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Python",
+  "color": "#F7DF1E"
+}
+
+### Update tag
+PUT {{baseUrl}}/tags/{{tagId}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Pajton",
+  "color": "#F0DB4F"
+}
+
+### Delete tag
+DELETE {{baseUrl}}/tags/{{tagId}} HTTP/1.1
+Authorization: Bearer {{token}}

@@ -256,3 +256,41 @@ export const updateCategorySchema = Joi.object({
   .messages({
     "object.min": "At least one field must be provided for update",
   });
+
+export const createTagSchema = Joi.object({
+  name: Joi.string().min(2).max(50).required().messages({
+    "string.empty": "Tag name cannot be empty",
+    "string.min": "Tag name must be at least 2 characters long",
+    "string.max": "Tag name must be at most 50 characters long",
+    "any.required": "Tag name is required",
+  }),
+  color: Joi.string()
+    .pattern(/^#[0-9a-fA-F]{6}$/)
+    .allow(null)
+    .optional()
+    .messages({
+      "string.pattern.base":
+        "Color must be a valid hex color code (e.g., #FF5733)",
+    }),
+});
+
+export const updateTagSchema = Joi.object({
+  name: Joi.string().min(2).max(50).optional().messages({
+    "string.empty": "Tag name cannot be empty",
+    "string.min": "Tag name must be at least 2 characters long",
+    "string.max": "Tag name must be at most 50 characters long",
+  }),
+  color: Joi.string()
+    .pattern(/^#[0-9a-fA-F]{6}$/)
+    .allow(null)
+    .optional()
+    .messages({
+      "string.pattern.base":
+        "Color must be a valid hex color code (e.g., #FF5733)",
+    }),
+})
+  .min(1)
+  .required()
+  .messages({
+    "object.min": "At least one field must be provided for update",
+  });
