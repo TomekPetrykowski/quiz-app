@@ -1,7 +1,8 @@
-@baseUrl = http://localhost:3000/v1
-@quizId = cmc3b5zhd000ddsbsho766qpj
-@categoryId = cmc3aphu40003dsbsbkj6afjf
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWMzOWl0eDQwMDAwZHNyeDdkcmQ0Y3N1IiwiZW1haWwiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsInVzZXJuYW1lIjoidGVzdHVzZXIxIiwiaWF0IjoxNzUwMzM0ODU5LCJleHAiOjE3NTAzMzU3NTl9.5_YcD4cBRhUvLeeE5fXQ3YXtwuriVwDIVrfNI5jd_PE
+@baseUrl = http://localhost:3001/v1
+@quizId = cmc4kcgli0003pm016ao4l3g2
+@categoryId = cmc4kc7eb0001pm01sy2tfwje
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWM0amViMm4wMDAwcGYwMXM0MjF0bDdlIiwiZW1haWwiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsInVzZXJuYW1lIjoidGVzdHVzZXIxIiwiaWF0IjoxNzUwNDEwMDQ5LCJleHAiOjE3NTA0MTA5NDl9._1kxXKU-X2yC9nlJ0pODazhGXxj2BUzo174flE0KoLs
+
 
 ### Get all quizzes
 GET {{baseUrl}}/quizzes HTTP/1.1
@@ -21,7 +22,7 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "title": "JavaScript Basics Quiz",
+  "title": "Python Basics Quiz",
   "description": "Test your knowledge of JavaScript fundamentals",
   "categoryId": "{{categoryId}}",
   "difficulty": "BEGINNER",
@@ -39,7 +40,7 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "title": "JavaScript Fundamentals Quiz",
+  "title": "Python Fundamentals Quiz",
   "description": "Updated description",
   "difficulty": "INTERMEDIATE"
 }
@@ -54,7 +55,7 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "tagIds": ["cmc3c77d70000dsknuei3q8m0", "cmc3c7km70002dsknmug348cc"]
+  "tagIds": ["cmc4l0j1e0003pb01q9xw1644", "cmc4l08g40002pb01nwuzi869"]
 }
 
 ### Remove tags from quiz
@@ -63,5 +64,5 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "tagIds": ["cmc3c7km70002dsknmug348cc"]
+  "tagIds": ["cmc4l0j1e0003pb01q9xw1644"]
 }

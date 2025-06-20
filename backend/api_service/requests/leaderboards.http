@@ -1,4 +1,4 @@
-@baseUrl = http://localhost:3000/v1
+@baseUrl = http://localhost:3001/v1
 @leaderboardId = cmc3v0ouf000bdsbmzjo28ys9
 @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWMzOWl0eDQwMDAwZHNyeDdkcmQ0Y3N1IiwiZW1haWwiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsInVzZXJuYW1lIjoidGVzdHVzZXIxIiwiaWF0IjoxNzUwMzY2NTQ2LCJleHAiOjE3NTAzNjc0NDZ9.nWfcpukDAlL2hp7F1wZKq0YzITkmreKBdYAbqJOw6TE
 

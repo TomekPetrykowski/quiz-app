@@ -3,6 +3,7 @@ import config from "../config";
 import { getErrorMessage } from "../utils";
 import CustomError from "../errors/CustomError";
 import Joi from "joi";
+import AuthenticationError from "@/errors/AuthenticationError";
 
 export default function errorHandler(
   error: unknown,
@@ -27,6 +28,16 @@ export default function errorHandler(
     };
 
     res.status(422).json(validationError);
+    return;
+  }
+
+  if (error instanceof AuthenticationError) {
+    res.status(error.statusCode).json({
+      error: {
+        message: error.message,
+        code: error.code || "ERR_AUTH",
+      },
+    });
     return;
   }
 

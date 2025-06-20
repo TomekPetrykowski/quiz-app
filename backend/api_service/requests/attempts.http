@@ -1,9 +1,11 @@
-@baseUrl = http://localhost:3000/v1
-@quizId = cmc3b5zhd000ddsbsho766qpj
+@baseUrl = http://localhost:3001/v1
+@quizId = cmc4kcgli0003pm016ao4l3g2
 @attemptId = cmc3orw9k0007dsjerl4937xg
 @questionId = cmc3fy5ev0007dsp13a5562tn
 @answerId = cmc3fymx8000edsp1ip9kh9eo
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWMzOWl0eDQwMDAwZHNyeDdkcmQ0Y3N1IiwiZW1haWwiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsInVzZXJuYW1lIjoidGVzdHVzZXIxIiwiaWF0IjoxNzUwMzU1MjI1LCJleHAiOjE3NTAzNTYxMjV9.R6tyhA-13zjLp1gf8qwaF3fP32wyf1IlTwP2j0QdhMk
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWM0amViMm4wMDAwcGYwMXM0MjF0bDdlIiwiZW1haWwiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsInVzZXJuYW1lIjoidGVzdHVzZXIxIiwiaWF0IjoxNzUwNDA4OTM1LCJleHAiOjE3NTA0MDk4MzV9.FDj_sh5OQRmyYRGgOIWoPO2PgRYphPMBqqrEhh9YlFA
+
+
 ### Get all quiz attempts with filters
 GET {{baseUrl}}/attempts?quizId={{quizId}} HTTP/1.1
 

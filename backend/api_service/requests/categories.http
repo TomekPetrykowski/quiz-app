@@ -1,6 +1,6 @@
-@baseUrl = http://localhost:3000/v1
+@baseUrl = http://localhost:3001/v1
 @categoryId = cmc3aukbp0007dsbs1sfaffa7
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWMzOWl0eDQwMDAwZHNyeDdkcmQ0Y3N1IiwiZW1haWwiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsInVzZXJuYW1lIjoidGVzdHVzZXIxIiwiaWF0IjoxNzUwMzMyMzI3LCJleHAiOjE3NTAzMzMyMjd9.w_IxKc8AMHXjrd6jbjTaFKUuyi88zbnIqPPDB4JH1KU
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWM0amViMm4wMDAwcGYwMXM0MjF0bDdlIiwiZW1haWwiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsInVzZXJuYW1lIjoidGVzdHVzZXIxIiwiaWF0IjoxNzUwNDA4OTM1LCJleHAiOjE3NTA0MDk4MzV9.FDj_sh5OQRmyYRGgOIWoPO2PgRYphPMBqqrEhh9YlFA
 
 ### Get all categories
 GET {{baseUrl}}/categories HTTP/1.1

@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.36.0 (ae2a39403)
+  labels:
+    io.kompose.service: api-service
+  name: api-service
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      io.kompose.service: api-service
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.36.0 (ae2a39403)
+      labels:
+        io.kompose.service: api-service
+    spec:
+      containers:
+        - envFrom:
+            - configMapRef:
+                name: backend-api-service--env
+          image: quiz-app-api-service:latest
+          livenessProbe:
+            exec:
+              command:
+                - curl
+                - -f
+                - http://localhost:3000/health || curl -f http://localhost:3000/health
+            failureThreshold: 3
+            periodSeconds: 30
+            timeoutSeconds: 10
+          name: api-service
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          ports:
+            - containerPort: 3000
+              protocol: TCP
+      restartPolicy: Always

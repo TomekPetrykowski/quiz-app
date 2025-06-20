@@ -11,12 +11,12 @@ services:
       - NEXT_PUBLIC_API_URL=http://api_service:3000
       - NEXT_PUBLIC_FEEDBACK_URL=http://feedback_service:3100
     depends_on:
-      - api_service
-      - feedback_service
+      - api-service
+      - feedback-service
     networks:
       - quiznet
 
-  api_service:
+  api-service:
     build:
       context: ./backend/api_service
       dockerfile: Dockerfile
@@ -39,7 +39,7 @@ services:
       timeout: 10s
       retries: 3
 
-  feedback_service:
+  feedback-service:
     env_file: ./backend/feedback_service/.env
     environment:
       - MONGODB_URI=mongodb://mongo:27017/feedback
@@ -83,7 +83,7 @@ services:
     networks:
       - quiznet
     healthcheck:
-      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
       interval: 30s
       timeout: 10s
       retries: 3

@@ -1,5 +1,5 @@
 ### Submit feedback (POST)
-POST http://localhost:3000/v1/feedback
+POST http://localhost:3001/v1/feedback
 Content-Type: application/json
 
 {
@@ -7,4 +7,4 @@ Content-Type: application/json
 }
 
 ### Get all feedback (GET)
-GET http://localhost:3000/v1/feedback
+GET http://localhost:3001/v1/feedback

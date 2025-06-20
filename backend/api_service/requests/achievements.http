@@ -1,7 +1,7 @@
-@baseUrl = http://localhost:3000/v1
+@baseUrl = http://localhost:3001/v1
 @achievementId = cmc3vfnzu000edsbm3a00bud1
 @userId = cmc39itx40000dsrx7drd4csu
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWMzOWl0eDQwMDAwZHNyeDdkcmQ0Y3N1IiwiZW1haWwiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsInVzZXJuYW1lIjoidGVzdHVzZXIxIiwiaWF0IjoxNzUwMzY3MDIxLCJleHAiOjE3NTAzNjc5MjF9.T6H1MM4_SXK0O97ZEoJUuI6ErWrXgXH2GCm2QOaK7Jc
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWM0amViMm4wMDAwcGYwMXM0MjF0bDdlIiwiZW1haWwiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsInVzZXJuYW1lIjoidGVzdHVzZXIxIiwiaWF0IjoxNzUwNDA4OTM1LCJleHAiOjE3NTA0MDk4MzV9.FDj_sh5OQRmyYRGgOIWoPO2PgRYphPMBqqrEhh9YlFA
 
 ### Get all achievements
 GET {{baseUrl}}/achievements HTTP/1.1

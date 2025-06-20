@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.36.0 (ae2a39403)
+  labels:
+    io.kompose.service: feedback-service
+  name: feedback-service
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      io.kompose.service: feedback-service
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.36.0 (ae2a39403)
+      labels:
+        io.kompose.service: feedback-service
+    spec:
+      containers:
+        - envFrom:
+            - configMapRef:
+                name: backend-feedback-service--env
+          image: quiz-app-feedback-service:latest
+          livenessProbe:
+            exec:
+              command:
+                - curl
+                - -f
+                - http://localhost:3000/health
+            failureThreshold: 3
+            periodSeconds: 30
+            timeoutSeconds: 10
+          name: feedback-service
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 3000
+              protocol: TCP
+      restartPolicy: Always

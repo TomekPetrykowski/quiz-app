@@ -1,4 +1,4 @@
-@baseUrl = http://localhost:3000/v1
+@baseUrl = http://localhost:3001/v1
 @quizId = cmc3b5zhd000ddsbsho766qpj
 @questionId = cmc3fxog20001dsp1z1y0xsv4
 @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWMzOWl0eDQwMDAwZHNyeDdkcmQ0Y3N1IiwiZW1haWwiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsInVzZXJuYW1lIjoidGVzdHVzZXIxIiwiaWF0IjoxNzUwMzQxMDg5LCJleHAiOjE3NTAzNDE5ODl9.BvfUkTgOL2wjw7cjvvgIAUMar8uk-4eqLrbI7LBn13g

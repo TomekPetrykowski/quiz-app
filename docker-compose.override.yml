@@ -13,7 +13,7 @@ services:
     ports:
       - "3000:3000"
 
-  api_service:
+  api-service:
     command: npx nodemon --exec ts-node src/app.ts
     volumes:
       - ./backend/api_service:/app
@@ -23,7 +23,7 @@ services:
     ports:
       - "3001:3000"
 
-  feedback_service:
+  feedback-service:
     command: npx nodemon src/app.ts
     volumes:
       - ./backend/feedback_service:/app

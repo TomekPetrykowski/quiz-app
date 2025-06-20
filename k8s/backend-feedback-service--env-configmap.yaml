@@ -1,0 +1,13 @@
+apiVersion: v1
+data:
+  API_KEY: "123"
+  JWT_SECRET: kocham_backend
+  MAIN_API_URL: http://api_service:3000/v1
+  MONGODB_URI: mongodb://mongo:27017/feedback
+  NODE_ENV: development
+  PORT: "3000"
+kind: ConfigMap
+metadata:
+  labels:
+    io.kompose.service: feedback-service-backend-feedback-service--env
+  name: backend-feedback-service--env

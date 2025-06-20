@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.36.0 (ae2a39403)
+  labels:
+    io.kompose.service: frontend
+  name: frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      io.kompose.service: frontend
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.36.0 (ae2a39403)
+      labels:
+        io.kompose.service: frontend
+    spec:
+      containers:
+        - env:
+            - name: NEXT_PUBLIC_API_URL
+              value: http://api_service:3000
+            - name: NEXT_PUBLIC_FEEDBACK_URL
+              value: http://feedback_service:3100
+          image: quiz-app-frontend:latest
+          name: frontend
+          ports:
+            - containerPort: 3000
+              protocol: TCP
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+      restartPolicy: Always

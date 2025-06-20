@@ -1,0 +1,16 @@
+apiVersion: v1
+data:
+  APP_DEBUG: "true"
+  DATABASE_URL: postgresql://postgres:quiz123@postgres:5432/quiz_db?schema=public
+  FEEDBACK_API_KEY: "123"
+  FEEDBACK_API_URL: http://feedback_service:3000/api
+  JWT_REFRESH_SECRET: fryzura_fresh_broda_fresh
+  JWT_SECRET: kocham_backend
+  LOG_LEVEL: debug
+  NODE_ENV: development
+  PORT: "3000"
+kind: ConfigMap
+metadata:
+  labels:
+    io.kompose.service: api-service-backend-api-service--env
+  name: backend-api-service--env
