@@ -12,7 +12,6 @@ const feedbackClient = axios.create({
 export const submitFeedback = async (feedbackData: { message: string }) => {
   try {
     const response = await feedbackClient.post("/feedback", feedbackData);
-    console.log("Feedback submitted successfully:", response.data);
     return response.data;
   } catch (error) {
     logger.error(`Error submitting feedback: ${error}`);
@@ -23,7 +22,6 @@ export const submitFeedback = async (feedbackData: { message: string }) => {
 export const getAllFeedback = async () => {
   try {
     const response = await feedbackClient.get("/feedback");
-    console.log("Feedback retrieved successfully:", response.data);
     return response.data;
   } catch (error) {
     logger.error(`Error retrieving feedback: ${error}`);
