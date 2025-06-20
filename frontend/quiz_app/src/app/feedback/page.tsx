@@ -14,7 +14,7 @@ export default function FeedbackPage() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/v1";
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
   const fetchFeedbacks = async () => {
     setLoading(true);
