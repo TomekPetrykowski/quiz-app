@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "bin": "dist/index.js",
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
@@ -17,8 +18,7 @@
     "db:migration-create": "npx prisma migrate dev --create-only",
     "db:migration-deploy": "npx prisma migrate deploy",
     "db:generate": "npx prisma generate",
-    "pgadmin": "echo 'PGAdmin available at: http://localhost:8080'",
-    "prepare": "husky"
+    "pgadmin": "echo 'PGAdmin available at: http://localhost:8080'"
   },
   "keywords": [],
   "author": "",
