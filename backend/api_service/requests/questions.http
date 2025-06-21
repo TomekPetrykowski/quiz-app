@@ -1,7 +1,7 @@
 @baseUrl = http://localhost:3001/v1
 @quizId = cmc3b5zhd000ddsbsho766qpj
 @questionId = cmc3fxog20001dsp1z1y0xsv4
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWMzOWl0eDQwMDAwZHNyeDdkcmQ0Y3N1IiwiZW1haWwiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsInVzZXJuYW1lIjoidGVzdHVzZXIxIiwiaWF0IjoxNzUwMzQxMDg5LCJleHAiOjE3NTAzNDE5ODl9.BvfUkTgOL2wjw7cjvvgIAUMar8uk-4eqLrbI7LBn13g
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWM0amViMm4wMDAwcGYwMXM0MjF0bDdlIiwiZW1haWwiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsInVzZXJuYW1lIjoidGVzdHVzZXIxIiwiaWF0IjoxNzUwNDExMTMwLCJleHAiOjE3NTA0MTIwMzB9.IO2Or5YELNoBwVpKbd1AdhMZ1UIrJTQ0ZK1PMHYK59I
 
 ### Get questions for a quiz
 GET {{baseUrl}}/questions?quizId={{quizId}} HTTP/1.1
