@@ -1,4 +1,6 @@
 import express, { Request, Response } from "express";
+import session from "express-session";
+import { keycloak, sessionConfig } from "./config";
 import morganMiddleware from "./middleware/morgan";
 import cors from "cors";
 import config from "./config";
@@ -12,7 +14,9 @@ export const createServer = () => {
     .use(morganMiddleware)
     .use(express.urlencoded({ extended: true }))
     .use(express.json())
-    .use(cors());
+    .use(cors())
+    .use(session(sessionConfig))
+    .use(keycloak.middleware({ logout: "/logout" }));
 
   app.get("/health", (req: Request, res: Response) => {
     res.json({ ok: true, environment: config.env });

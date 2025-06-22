@@ -15,7 +15,7 @@ export const getUsers = async (req: Request, res: Response) => {
 
   const [users, total] = await Repository.user.findAll(queryParams);
 
-  const usersWithoutPassword = users.map(({ password, ...user }) => user);
+  const usersWithoutPassword = users.map(({ ...user }) => user);
 
   const response = pagination.buildPaginationResponse(
     usersWithoutPassword,
@@ -52,7 +52,7 @@ export const createUser = async (req: Request, res: Response) => {
 
   const newUser = await Repository.user.create(req.body);
 
-  const { password, ...userWithoutPassword } = newUser;
+  const { ...userWithoutPassword } = newUser;
 
   res.status(201).json(userWithoutPassword);
 };
@@ -60,7 +60,7 @@ export const createUser = async (req: Request, res: Response) => {
 export const updateUser = async (req: Request, res: Response) => {
   const updatedUser = await Repository.user.update(req.params.id, req.body);
 
-  const { password, ...userWithoutPassword } = updatedUser;
+  const { ...userWithoutPassword } = updatedUser;
 
   res.status(200).json(userWithoutPassword);
 };
@@ -69,7 +69,7 @@ export const deleteUser = async (req: Request, res: Response) => {
   const deletedUser = await Repository.user.delete(req.params.id);
 
   if (deletedUser) {
-    const { password, ...userWithoutPassword } = deletedUser;
+    const { ...userWithoutPassword } = deletedUser;
     res.status(200).send(userWithoutPassword);
   } else {
     res.status(200).send(null);

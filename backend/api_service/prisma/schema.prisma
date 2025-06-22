@@ -16,10 +16,9 @@ datasource db {
 // Użytkownicy - integracja z Keycloak
 model User {
   id           String    @id @default(cuid())
-  // keycloakId   String    @unique @map("keycloak_id") 
+  keycloakId   String    @unique @map("keycloak_id") // ID użytkownika w Keycloak
   email        String    @unique
   username     String    @unique
-  password     String   
   firstName    String?   @map("first_name")
   lastName     String?   @map("last_name")
   avatar       String?
@@ -28,6 +27,7 @@ model User {
   updatedAt    DateTime  @updatedAt @map("updated_at")
 
   // Relacje
+  roles              UserRole[]
   quizzes            Quiz[]
   quizAttempts       QuizAttempt[]
   achievements       UserAchievement[]
@@ -37,6 +37,27 @@ model User {
   ownedGroups        Group[]
 
   @@map("users")
+}
+
+model Role {
+  id          String    @id @default(cuid())
+  name        String    @unique // 'admin', 'moderator', 'user'
+  description String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  users       UserRole[]
+}
+
+model UserRole {
+  userId    String
+  roleId    String
+  assignedAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role      Role     @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@id([userId, roleId])
 }
 
 // Kategorie quizów

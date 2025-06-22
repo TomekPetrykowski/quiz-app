@@ -12,9 +12,9 @@ export class UserRepository
   private mapToUser(user: PrismaUser): IUser {
     return {
       id: user.id,
+      keycloakId: user.keycloakId,
       email: user.email,
       username: user.username,
-      password: user.password,
       firstName: user.firstName || undefined,
       lastName: user.lastName || undefined,
       avatar: user.avatar || undefined,
@@ -27,6 +27,7 @@ export class UserRepository
   private mapToUserWithoutPassword(user: PrismaUser): Omit<IUser, "password"> {
     return {
       id: user.id,
+      keycloakId: user.keycloakId,
       email: user.email,
       username: user.username,
       firstName: user.firstName || undefined,
@@ -36,6 +37,18 @@ export class UserRepository
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
     };
+  }
+
+  async findByKeycloakId(keycloakId: string): Promise<IUser | null> {
+    const user = await this.client.user.findUnique({
+      where: { keycloakId },
+    });
+
+    if (!user) {
+      return null;
+    }
+
+    return this.mapToUser(user);
   }
 
   async findById(id: string): Promise<IUser | null> {

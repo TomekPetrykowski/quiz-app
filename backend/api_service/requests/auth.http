@@ -1,70 +1,92 @@
-### Register a new user
-@baseUrl = http://localhost:3001/v1
+# ### Register a new user
+# @baseUrl = http://localhost:3001/v1
 
-POST {{baseUrl}}/auth/register
-Content-Type: application/json
+# POST {{baseUrl}}/auth/register
+# Content-Type: application/json
 
-{
-  "username": "testuser1",
-  "email": "test1@example.com",
-  "password": "password123",
-  "firstName": "John",
-  "lastName": "Doe"
-}
+# {
+#   "username": "testuser1",
+#   "email": "test1@example.com",
+#   "password": "password123",
+#   "firstName": "John",
+#   "lastName": "Doe"
+# }
 
-### Login with email and password
-POST {{baseUrl}}/auth/login
-Content-Type: application/json
+# ### Login with email and password
+# POST {{baseUrl}}/auth/login
+# Content-Type: application/json
 
-{
-  "email": "test1@example.com",
-  "password": "password123"
-}
+# {
+#   "email": "test1@example.com",
+#   "password": "password123"
+# }
 
-### Refresh access token
-POST {{baseUrl}}/auth/refresh-token
-Content-Type: application/json
+# ### Refresh access token
+# POST {{baseUrl}}/auth/refresh-token
+# Content-Type: application/json
 
-{
-  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWJzMnhqYm8wMDAwZHNvZ2JoMGQ3dDJsIiwiZW1haWwiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsInVzZXJuYW1lIjoidGVzdHVzZXIxIiwiaWF0IjoxNzQ5NjU0Mjc3LCJleHAiOjE3NTAyNTkwNzd9.omMLe_dXRNAuaRg5kty5HhT9V887M9yYkipZEr6tCIY"
-}
+# {
+#   "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWJzMnhqYm8wMDAwZHNvZ2JoMGQ3dDJsIiwiZW1haWwiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsInVzZXJuYW1lIjoidGVzdHVzZXIxIiwiaWF0IjoxNzQ5NjU0Mjc3LCJleHAiOjE3NTAyNTkwNzd9.omMLe_dXRNAuaRg5kty5HhT9V887M9yYkipZEr6tCIY"
+# }
 
-### Get current user profile (requires authentication)
-GET {{baseUrl}}/auth/profile
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWJzMnhqYm8wMDAwZHNvZ2JoMGQ3dDJsIiwiZW1haWwiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsInVzZXJuYW1lIjoidGVzdHVzZXIxIiwiaWF0IjoxNzQ5NjU0MzMzLCJleHAiOjE3NDk2NTUyMzN9.IjwIiRqt950r3Pm12dK7lqRAWYmk5KtWPHXS5ziP6KU
+# ### Get current user profile (requires authentication)
+# GET {{baseUrl}}/auth/profile
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWJzMnhqYm8wMDAwZHNvZ2JoMGQ3dDJsIiwiZW1haWwiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsInVzZXJuYW1lIjoidGVzdHVzZXIxIiwiaWF0IjoxNzQ5NjU0MzMzLCJleHAiOjE3NDk2NTUyMzN9.IjwIiRqt950r3Pm12dK7lqRAWYmk5KtWPHXS5ziP6KU
 
-### Test registration with duplicate email
-POST {{baseUrl}}/auth/register
-Content-Type: application/json
+# ### Test registration with duplicate email
+# POST {{baseUrl}}/auth/register
+# Content-Type: application/json
 
-{
-  "username": "differentuser",
-  "email": "test@example.com",
-  "password": "password123",
-  "firstName": "Jane",
-  "lastName": "Smith"
-}
+# {
+#   "username": "differentuser",
+#   "email": "test@example.com",
+#   "password": "password123",
+#   "firstName": "Jane",
+#   "lastName": "Smith"
+# }
 
-### Test login with wrong password
-POST {{baseUrl}}/auth/login
-Content-Type: application/json
+# ### Test login with wrong password
+# POST {{baseUrl}}/auth/login
+# Content-Type: application/json
 
-{
-  "email": "test@example.com",
-  "password": "wrongpassword"
-}
+# {
+#   "email": "test@example.com",
+#   "password": "wrongpassword"
+# }
 
-### Test profile access without token
-GET {{baseUrl}}/auth/profile
+# ### Test profile access without token
+# GET {{baseUrl}}/auth/profile
 
-### Test profile access with invalid token
-GET {{baseUrl}}/auth/profile
-Authorization: Bearer invalid.token.here
+# ### Test profile access with invalid token
+# GET {{baseUrl}}/auth/profile
+# Authorization: Bearer invalid.token.here
 
-### Test refresh with invalid token
-POST {{baseUrl}}/auth/refresh-token
-Content-Type: application/json
+# ### Test refresh with invalid token
+# POST {{baseUrl}}/auth/refresh-token
+# Content-Type: application/json
 
-{
-  "refreshToken": "invalid.refresh.token"
-}
+# {
+#   "refreshToken": "invalid.refresh.token"
+# }
+
+@keycloakUrl = http://localhost:8080
+@realm = quiz-app
+@clientId = api-service
+@clientSecret = Ow4rbz6bvXBqmr3kC2dTXC5EkWBatROS
+@username = janek
+@password = janek123
+
+### Step 1: Get access token from Keycloak
+# Direct Grant Flow (Resource Owner Password Grant)
+POST {{keycloakUrl}}/realms/{{realm}}/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=password&client_id={{clientId}}&client_secret={{clientSecret}}&username={{username}}&password={{password}}&scope=openid
+
+### After this request completes, copy the access_token value for use below
+@token = eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJqVWpYak1GVDZsRjRFV2htRFJZS1ZfM2JaUFpkMGh2cHF5WmNRbERueUg4In0.eyJleHAiOjE3NTA2MzE4NzgsImlhdCI6MTc1MDYzMDA3OCwianRpIjoib25ydHJvOmJiZTY3Y2UwLTRlYzMtNGRiMC05ZWNkLTNhOWI4YzVmZmUwMSIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MC9yZWFsbXMvcXVpei1hcHAiLCJhdWQiOlsiYXBpLXNlcnZpY2UiLCJhY2NvdW50Il0sInN1YiI6ImVmMjIxZTE1LWE3OWEtNDQ5ZC1hOTQ5LTFiNjQ1ODUyZmQxYiIsInR5cCI6IkJlYXJlciIsImF6cCI6ImFwaS1zZXJ2aWNlIiwic2lkIjoiY2EwMjljMmItNGY4Yy00NmExLThhZDktMjViODJkZWQzNzdlIiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwOi8vbG9jYWxob3N0OjMwMDAvKiIsIioiLCJodHRwOi8vbG9jYWxob3N0OjMwMDEvKiJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJkZWZhdWx0LXJvbGVzLXF1aXotYXBwIiwidW1hX2F1dGhvcml6YXRpb24iLCJ1c2VyIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJuYW1lIjoiSmFuIEphbmtvd3NraSIsInByZWZlcnJlZF91c2VybmFtZSI6ImphbmVrIiwiZ2l2ZW5fbmFtZSI6IkphbiIsImZhbWlseV9uYW1lIjoiSmFua293c2tpIiwiZW1haWwiOiJqYW5lY3pla0BnbWFpbC5jb20ifQ.Hr1qrytNFZ6S4kAo1Y7NWws__MHSKrjIith41kz7ho4Q-7xwfGsXxgnoWTOYuWHyW1M9Hm6EFKMzz5WP_DMvCeoQ-mDE8tXUUHS995uE_IHrVKC6nPxlYZ2_mJ9OVkZq0tt-n7ruC-PD-UCVrVA0qcYjAoty3x37_dJfMzVfDKzJ9Ol1sCa44Uc_igBcta4LwDX62Po7r0jDjlUWPg7OJbfH6TRk2RjbR5pzd6WGfmBVvQOP7RRrFUISNN5cEkax2sxXQTxz2DHMLEkMV9WiXlIFCOsV00FyX4GqCXB2d4XP5Q3pMsWzBskawJd3zNMlTzLBxmC91HwPlZKz7UzVmw
+
+
+### Step 2: Test protected endpoint
+GET http://localhost:3000/v1/auth/profile
+Authorization: Bearer {{token}}

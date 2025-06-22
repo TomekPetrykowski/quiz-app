@@ -14,12 +14,12 @@ import {
   updateQuizSchema,
   quizTagsSchema,
 } from "@/data/request-schemas";
-import { authenticateToken } from "@/middleware/auth";
+import { authenticateToken, protectEndpoint } from "@/middleware/auth";
 
 const quizzes: Router = express.Router();
 
 // Public routes
-quizzes.get("/", getQuizzes);
+quizzes.get("/", protectEndpoint(), getQuizzes);
 quizzes.get("/:id", getQuizById);
 
 // Protected routes - require authentication

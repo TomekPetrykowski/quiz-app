@@ -25,9 +25,9 @@ type QuestionType =
   | "FILL_BLANK";
 
 export interface IUser extends IEntity {
+  keycloakId: string;
   email: string;
   username: string;
-  password: string;
   firstName?: string;
   lastName?: string;
   avatar?: string;
