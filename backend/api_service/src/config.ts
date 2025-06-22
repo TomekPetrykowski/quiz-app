@@ -4,13 +4,12 @@ import Keycloak from "keycloak-connect";
 const memoryStore = new session.MemoryStore();
 
 const keycloakConfig = {
-  realm: process.env.KEYCLOAK_REALM || "quiz-app",
-  "auth-server-url": process.env.KEYCLOAK_URL || "http://keycloak:8080",
+  realm: process.env.KEYCLOAK_REALM || "",
+  "auth-server-url": process.env.KEYCLOAK_URL || "",
   "ssl-required": "external",
-  resource: process.env.KEYCLOAK_CLIENT_ID || "api-service",
+  resource: process.env.KEYCLOAK_CLIENT_ID || "",
   "confidential-port": 0,
-  "verify-token-audience": false,
-  "use-resource-role-mappings": true,
+  "verify-token-audience": true,
   "bearer-only": true,
   credentials: {
     secret: process.env.KEYCLOAK_CLIENT_SECRET,
@@ -22,7 +21,7 @@ export const keycloak = new Keycloak({ store: memoryStore }, keycloakConfig);
 
 // Session configuration
 export const sessionConfig = {
-  secret: process.env.SESSION_SECRET || "some-secret",
+  secret: process.env.SESSION_SECRET || "default",
   resave: false,
   saveUninitialized: true,
   store: memoryStore,
