@@ -14,30 +14,30 @@ import {
   createAchievementSchema,
   updateAchievementSchema,
 } from "@/data/request-schemas";
-import { authenticateToken } from "@/middleware/auth";
+import { protectEndpoint } from "@/middleware/auth";
 
 const achievements: Router = express.Router();
 
 achievements.get("/", getAchievements);
-achievements.get("/user", authenticateToken, getUserAchievements);
+achievements.get("/user", protectEndpoint(), getUserAchievements);
 achievements.get("/:id", getAchievementById);
-achievements.get("/user/:userId", authenticateToken, getUserAchievements);
+achievements.get("/user/:userId", protectEndpoint(), getUserAchievements);
 
 achievements.post(
   "/",
-  authenticateToken,
+  protectEndpoint(),
   validateRequest(createAchievementSchema),
   createAchievement,
 );
 achievements.put(
   "/:id",
-  authenticateToken,
+  protectEndpoint(),
   validateRequest(updateAchievementSchema),
   updateAchievement,
 );
-achievements.delete("/:id", authenticateToken, deleteAchievement);
-achievements.post("/award", authenticateToken, awardAchievement);
-achievements.post("/check", authenticateToken, checkUserAchievements);
-achievements.post("/check/:userId", authenticateToken, checkUserAchievements);
+achievements.delete("/:id", protectEndpoint(), deleteAchievement);
+achievements.post("/award", protectEndpoint(), awardAchievement);
+achievements.post("/check", protectEndpoint(), checkUserAchievements);
+achievements.post("/check/:userId", protectEndpoint(), checkUserAchievements);
 
 export default achievements;

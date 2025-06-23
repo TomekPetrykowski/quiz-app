@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import Repository from "@/data/repositories";
 import { PaginationHelper as pagination } from "@/data/repositories/shared/PaginationHelper";
-import { BadRequestError } from "@/errors/BadRequestError";
 import { AuthenticatedRequest } from "@/middleware/auth";
 import AuthenticationError from "@/errors/AuthenticationError";
 

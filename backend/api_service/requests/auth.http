@@ -1,73 +1,3 @@
-# ### Register a new user
-# @baseUrl = http://localhost:3001/v1
-
-# POST {{baseUrl}}/auth/register
-# Content-Type: application/json
-
-# {
-#   "username": "testuser1",
-#   "email": "test1@example.com",
-#   "password": "password123",
-#   "firstName": "John",
-#   "lastName": "Doe"
-# }
-
-# ### Login with email and password
-# POST {{baseUrl}}/auth/login
-# Content-Type: application/json
-
-# {
-#   "email": "test1@example.com",
-#   "password": "password123"
-# }
-
-# ### Refresh access token
-# POST {{baseUrl}}/auth/refresh-token
-# Content-Type: application/json
-
-# {
-#   "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWJzMnhqYm8wMDAwZHNvZ2JoMGQ3dDJsIiwiZW1haWwiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsInVzZXJuYW1lIjoidGVzdHVzZXIxIiwiaWF0IjoxNzQ5NjU0Mjc3LCJleHAiOjE3NTAyNTkwNzd9.omMLe_dXRNAuaRg5kty5HhT9V887M9yYkipZEr6tCIY"
-# }
-
-# ### Get current user profile (requires authentication)
-# GET {{baseUrl}}/auth/profile
-# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWJzMnhqYm8wMDAwZHNvZ2JoMGQ3dDJsIiwiZW1haWwiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsInVzZXJuYW1lIjoidGVzdHVzZXIxIiwiaWF0IjoxNzQ5NjU0MzMzLCJleHAiOjE3NDk2NTUyMzN9.IjwIiRqt950r3Pm12dK7lqRAWYmk5KtWPHXS5ziP6KU
-
-# ### Test registration with duplicate email
-# POST {{baseUrl}}/auth/register
-# Content-Type: application/json
-
-# {
-#   "username": "differentuser",
-#   "email": "test@example.com",
-#   "password": "password123",
-#   "firstName": "Jane",
-#   "lastName": "Smith"
-# }
-
-# ### Test login with wrong password
-# POST {{baseUrl}}/auth/login
-# Content-Type: application/json
-
-# {
-#   "email": "test@example.com",
-#   "password": "wrongpassword"
-# }
-
-# ### Test profile access without token
-# GET {{baseUrl}}/auth/profile
-
-# ### Test profile access with invalid token
-# GET {{baseUrl}}/auth/profile
-# Authorization: Bearer invalid.token.here
-
-# ### Test refresh with invalid token
-# POST {{baseUrl}}/auth/refresh-token
-# Content-Type: application/json
-
-# {
-#   "refreshToken": "invalid.refresh.token"
-# }
 
 @keycloakUrl = http://localhost:8080
 @realm = quiz-app
@@ -76,20 +6,15 @@
 @username = janek
 @password = janek123
 
-### Step 1: Get access token from Keycloak
-# Direct Grant Flow (Resource Owner Password Grant)
 POST {{keycloakUrl}}/realms/{{realm}}/protocol/openid-connect/token
 Content-Type: application/x-www-form-urlencoded
 
 grant_type=password&client_id={{clientId}}&client_secret={{clientSecret}}&username={{username}}&password={{password}}
 
-### After this request completes, copy the access_token value for use below
 @token = eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJqVWpYak1GVDZsRjRFV2htRFJZS1ZfM2JaUFpkMGh2cHF5WmNRbERueUg4In0.eyJleHAiOjE3NTA2MzczNTQsImlhdCI6MTc1MDYzNTU1NCwianRpIjoib25ydHJvOjFhYTc0ZmViLTIwNzctNGE4NS1hZGE3LThmMDlhMjkyMjIwYSIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MC9yZWFsbXMvcXVpei1hcHAiLCJhdWQiOlsiYXBpLXNlcnZpY2UiLCJhY2NvdW50Il0sInN1YiI6ImVmMjIxZTE1LWE3OWEtNDQ5ZC1hOTQ5LTFiNjQ1ODUyZmQxYiIsInR5cCI6IkJlYXJlciIsImF6cCI6ImFwaS1zZXJ2aWNlIiwic2lkIjoiNjllZTZiOGMtYjJiMy00MmM5LWEwMTMtM2RkY2RmM2IzZWM1IiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwOi8vbG9jYWxob3N0OjMwMDAvKiIsIioiLCJodHRwOi8vbG9jYWxob3N0OjMwMDEvKiJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJkZWZhdWx0LXJvbGVzLXF1aXotYXBwIiwidW1hX2F1dGhvcml6YXRpb24iLCJ1c2VyIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYXBpLXNlcnZpY2UiOnsicm9sZXMiOlsidXNlciJdfSwiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsIm5hbWUiOiJKYW4gSmFua293c2tpIiwicHJlZmVycmVkX3VzZXJuYW1lIjoiamFuZWsiLCJnaXZlbl9uYW1lIjoiSmFuIiwiZmFtaWx5X25hbWUiOiJKYW5rb3dza2kiLCJlbWFpbCI6ImphbmVjemVrQGdtYWlsLmNvbSJ9.OIAdalABi94lO0TudT2EsiXl5dAsdzZ3ROJIbP7WJVLeOoOHxoI_97XRDoCR8AcM4YwyRz8f2B7rHvfT66D0PvgW8ksDnE7g4S_lIhnOzwYuBbpDeSnYTFBTqvcQa9G7LxYKPiqNoifSyQmKHSzBEIU7XlQqS5HT_kFna1e6fUGMGW8j8vbdHmQt9dNQzYDU1YV1aaN0LoNwU9yTsVc_yEZN6URa_OsFfM67-VMZLsexlRBHQDJjPiZj3Ym0LpGd9FN9Hpg0DoJ-LDOEzVPK6wEeAIfBQMJsT0G4Be-ip_9-nKadsFrvr5WRwPVHfSLeBF3QuQOf_u8s68OqNuqeMQ
 
-### Step 2: Test protected endpoint
 GET http://localhost:3000/v1/auth/profile
 Authorization: Bearer {{token}}
 
-### Debug
 GET http://localhost:3000/v1/auth/debug
 Authorization: Bearer {{token}}

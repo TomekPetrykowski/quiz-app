@@ -16,10 +16,8 @@ const keycloakConfig = {
   },
 };
 
-// Initialize Keycloak
 export const keycloak = new Keycloak({ store: memoryStore }, keycloakConfig);
 
-// Session configuration
 export const sessionConfig = {
   secret: process.env.SESSION_SECRET || "default",
   resave: false,

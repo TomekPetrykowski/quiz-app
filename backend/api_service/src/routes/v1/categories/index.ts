@@ -12,7 +12,7 @@ import {
   createCategorySchema,
   updateCategorySchema,
 } from "@/data/request-schemas";
-import { authenticateToken } from "@/middleware/auth";
+import { protectEndpoint } from "@/middleware/auth";
 
 const categories: Router = express.Router();
 
@@ -24,16 +24,16 @@ categories.get("/:id", getCategoryById);
 // Protected routes - require authentication
 categories.post(
   "/",
-  authenticateToken,
+  protectEndpoint(),
   validateRequest(createCategorySchema),
   createCategory,
 );
 categories.put(
   "/:id",
-  authenticateToken,
+  protectEndpoint(),
   validateRequest(updateCategorySchema),
   updateCategory,
 );
-categories.delete("/:id", authenticateToken, deleteCategory);
+categories.delete("/:id", protectEndpoint(), deleteCategory);
 
 export default categories;

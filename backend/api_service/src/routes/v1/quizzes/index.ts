@@ -14,39 +14,39 @@ import {
   updateQuizSchema,
   quizTagsSchema,
 } from "@/data/request-schemas";
-import { authenticateToken, protectEndpoint } from "@/middleware/auth";
+import { protectEndpoint } from "@/middleware/auth";
 
 const quizzes: Router = express.Router();
 
 // Public routes
-quizzes.get("/", protectEndpoint(), getQuizzes);
+quizzes.get("/", getQuizzes);
 quizzes.get("/:id", getQuizById);
 
 // Protected routes - require authentication
 quizzes.post(
   "/",
-  authenticateToken,
+  protectEndpoint(),
   validateRequest(createQuizSchema),
   createQuiz,
 );
 quizzes.put(
   "/:id",
-  authenticateToken,
+  protectEndpoint(),
   validateRequest(updateQuizSchema),
   updateQuiz,
 );
-quizzes.delete("/:id", authenticateToken, deleteQuiz);
+quizzes.delete("/:id", protectEndpoint(), deleteQuiz);
 
 // Tag management
 quizzes.post(
   "/:id/tags",
-  authenticateToken,
+  protectEndpoint(),
   validateRequest(quizTagsSchema),
   addQuizTags,
 );
 quizzes.delete(
   "/:id/tags",
-  authenticateToken,
+  protectEndpoint(),
   validateRequest(quizTagsSchema),
   removeQuizTags,
 );

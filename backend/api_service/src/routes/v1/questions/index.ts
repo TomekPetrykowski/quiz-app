@@ -14,7 +14,7 @@ import {
   updateQuestionSchema,
   reorderQuestionsSchema,
 } from "@/data/request-schemas";
-import { authenticateToken } from "@/middleware/auth";
+import { protectEndpoint } from "@/middleware/auth";
 
 const questions: Router = express.Router();
 
@@ -24,20 +24,20 @@ questions.get("/quiz/:quizId", getQuestionsByQuizId);
 
 questions.post(
   "/",
-  authenticateToken,
+  protectEndpoint(),
   validateRequest(createQuestionSchema),
   createQuestion,
 );
 questions.put(
   "/:id",
-  authenticateToken,
+  protectEndpoint(),
   validateRequest(updateQuestionSchema),
   updateQuestion,
 );
-questions.delete("/:id", authenticateToken, deleteQuestion);
+questions.delete("/:id", protectEndpoint(), deleteQuestion);
 questions.post(
   "/quiz/:quizId/reorder",
-  authenticateToken,
+  protectEndpoint(),
   validateRequest(reorderQuestionsSchema),
   reorderQuestions,
 );

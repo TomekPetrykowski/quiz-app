@@ -15,7 +15,7 @@ import {
   createLeaderboardSchema,
   updateLeaderboardSchema,
 } from "@/data/request-schemas";
-import { authenticateToken } from "@/middleware/auth";
+import { protectEndpoint } from "@/middleware/auth";
 
 const leaderboards: Router = express.Router();
 
@@ -23,25 +23,25 @@ leaderboards.get("/", getLeaderboards);
 leaderboards.get("/:id", getLeaderboardById);
 leaderboards.get("/:id/entries", getLeaderboardEntries);
 
-leaderboards.get("/user/position", authenticateToken, getUserPosition);
-leaderboards.get("/user/:userId/position", authenticateToken, getUserPosition);
+leaderboards.get("/user/position", protectEndpoint(), getUserPosition);
+leaderboards.get("/user/:userId/position", protectEndpoint(), getUserPosition);
 leaderboards.post(
   "/",
-  authenticateToken,
+  protectEndpoint(),
   validateRequest(createLeaderboardSchema),
   createLeaderboard,
 );
 leaderboards.put(
   "/:id",
-  authenticateToken,
+  protectEndpoint(),
   validateRequest(updateLeaderboardSchema),
   updateLeaderboard,
 );
-leaderboards.delete("/:id", authenticateToken, deleteLeaderboard);
-leaderboards.post("/:id/update", authenticateToken, updateLeaderboardRankings);
+leaderboards.delete("/:id", protectEndpoint(), deleteLeaderboard);
+leaderboards.post("/:id/update", protectEndpoint(), updateLeaderboardRankings);
 leaderboards.post(
   "/initialize-system",
-  authenticateToken,
+  protectEndpoint(),
   initializeSystemLeaderboards,
 );
 

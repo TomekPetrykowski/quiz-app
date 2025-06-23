@@ -3,8 +3,6 @@ import Repository from "@/data/repositories";
 import { PaginationHelper as pagination } from "@/data/repositories/shared/PaginationHelper";
 import { AuthenticatedRequest } from "@/middleware/auth";
 import AuthenticationError from "@/errors/AuthenticationError";
-import logger from "@/logger";
-import { Logger } from "winston";
 
 export const getQuizAttempts = async (req: Request, res: Response) => {
   const page = parseInt(req.query.page as string) || 1;
