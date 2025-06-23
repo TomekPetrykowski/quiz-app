@@ -1,22 +1,25 @@
-@baseUrl = http://localhost:3001/v1
-@achievementId = cmc3vfnzu000edsbm3a00bud1
+@baseUrl = http://localhost:3000/v1
+@achievementId = cmc8s96lc0006dsteod5zc27u
 @userId = cmc39itx40000dsrx7drd4csu
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWM0amViMm4wMDAwcGYwMXM0MjF0bDdlIiwiZW1haWwiOiJ0ZXN0MUBleGFtcGxlLmNvbSIsInVzZXJuYW1lIjoidGVzdHVzZXIxIiwiaWF0IjoxNzUwNDA4OTM1LCJleHAiOjE3NTA0MDk4MzV9.FDj_sh5OQRmyYRGgOIWoPO2PgRYphPMBqqrEhh9YlFA
+@adminToken = eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJqVWpYak1GVDZsRjRFV2htRFJZS1ZfM2JaUFpkMGh2cHF5WmNRbERueUg4In0.eyJleHAiOjE3NTA2NjU4MDYsImlhdCI6MTc1MDY2NDAwNiwianRpIjoib25ydHJvOjhiMWZiNzZjLWYzMGYtNDMyMy1hZGEzLWJjODQ4MmRiNmEyZiIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MC9yZWFsbXMvcXVpei1hcHAiLCJhdWQiOlsiYXBpLXNlcnZpY2UiLCJhY2NvdW50Il0sInN1YiI6IjM4NzE4YzU0LWU4NGQtNGMxNy04OTY1LTRjMTY5NzM4M2MzOCIsInR5cCI6IkJlYXJlciIsImF6cCI6ImFwaS1zZXJ2aWNlIiwic2lkIjoiYzFkMzdmMWEtMGZmNC00ZWUwLWJmM2ItYTk3N2I4OGNjMTg2IiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwOi8vbG9jYWxob3N0OjMwMDAvKiIsIioiLCJodHRwOi8vbG9jYWxob3N0OjMwMDEvKiJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsibW9kZXJhdG9yIiwib2ZmbGluZV9hY2Nlc3MiLCJkZWZhdWx0LXJvbGVzLXF1aXotYXBwIiwiYWRtaW4iLCJ1bWFfYXV0aG9yaXphdGlvbiIsInVzZXIiXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwibmFtZSI6IkFkbWluZWsgQmV6cGllY3pueSIsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluZWsiLCJnaXZlbl9uYW1lIjoiQWRtaW5layIsImZhbWlseV9uYW1lIjoiQmV6cGllY3pueSIsImVtYWlsIjoiYWRtaW5AcXVpei5jb20ifQ.OzZAe8AHA9hQYb_-CkyRDdNhJe_OWYdKrwIzodoIcGJv7pEAY4af7L2dqPOIBhDR0BsNQKLW-KOm3UAL9HFUHONT5D71kHPkjCEfzuVla07SbIdsNX2w8MeEhlJvA7zEXjdXkCkOv8_sOhrQMO9GWHRvM2yBDomIrDromWQ56k73nMU51nqithf9h_mIRZxh5p0vmk43FBnDTCXVJ4ADgnzKUexPZQr5uUvU02AbqTixuCxwYPRtsL-20pBvB3gwxslEkEQDCaJEkMu7nPF4KTwS0E7PCmXOFtFRQSexRJ3zWye2SnDbJWKlXge2CwVHHiAE6j8qiQ7S_H27x6UXSA
 
-### Get all achievements
+@userToken = eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJqVWpYak1GVDZsRjRFV2htRFJZS1ZfM2JaUFpkMGh2cHF5WmNRbERueUg4In0.eyJleHAiOjE3NTA2NjU5MzgsImlhdCI6MTc1MDY2NDEzOCwianRpIjoib25ydHJvOmVjOTdkYTliLWRkYmQtNGMyNy1hOTc4LTM5ODcwNzYyZDI0MCIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MC9yZWFsbXMvcXVpei1hcHAiLCJhdWQiOlsiYXBpLXNlcnZpY2UiLCJhY2NvdW50Il0sInN1YiI6ImVmMjIxZTE1LWE3OWEtNDQ5ZC1hOTQ5LTFiNjQ1ODUyZmQxYiIsInR5cCI6IkJlYXJlciIsImF6cCI6ImFwaS1zZXJ2aWNlIiwic2lkIjoiMTM1NjZkNTEtNGVkZi00ZGMyLThhMzktZDE1NWI4MjRkODg3IiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwOi8vbG9jYWxob3N0OjMwMDAvKiIsIioiLCJodHRwOi8vbG9jYWxob3N0OjMwMDEvKiJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJkZWZhdWx0LXJvbGVzLXF1aXotYXBwIiwidW1hX2F1dGhvcml6YXRpb24iLCJ1c2VyIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYXBpLXNlcnZpY2UiOnsicm9sZXMiOlsidXNlciJdfSwiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsIm5hbWUiOiJKYW4gSmFua293c2tpIiwicHJlZmVycmVkX3VzZXJuYW1lIjoiamFuZWsiLCJnaXZlbl9uYW1lIjoiSmFuIiwiZmFtaWx5X25hbWUiOiJKYW5rb3dza2kiLCJlbWFpbCI6ImphbmVjemVrQGdtYWlsLmNvbSJ9.DCmuyNb-m2-wJeVETUZpuEHiIvjurnMuo0d-nT7bEqeyz3Usy75KiWW6AWkLsO3P_HU5iwGv6ovpvNQjeFx25uJXET_KgplQ1ohmPxUXEi1v4eAhRn6_qa7DkaMuMjFHsO3kRB2EJcAyXaKizAyl3kzrf-Q4TZd-fP22E0R82z1iRsgXOl0X0sdg2MbmsOZFMDVVjFLddOmnc3JKnEQdB1H-zRg3I1NoTriyzi3dKCeqSizxepU-24PtY8aklC78BUNcZ7F4T7FhvsNXUmlN6ioviZg2SlIcWvdufVKNfcPKkyrMxZjAyzEAMpWCTKa23ek-gPLs3-bquHyE-tcPdA
+
+
+### Get all achievements (public)
 GET {{baseUrl}}/achievements HTTP/1.1
 
-### Get achievement by ID
+### Get achievement by ID (public)
 GET {{baseUrl}}/achievements/{{achievementId}} HTTP/1.1
 
-### Get user achievements
+### Get user achievements (user only)
 GET {{baseUrl}}/achievements/user HTTP/1.1
-Authorization: Bearer {{token}}
+Authorization: Bearer {{userToken}}
 
-### Create new achievement
+### Create new achievement (admin/moderator only)
 POST {{baseUrl}}/achievements HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer {{token}}
+Authorization: Bearer {{adminToken}}
 
 {
   "name": "Quiz Master",
@@ -30,10 +33,10 @@ Authorization: Bearer {{token}}
   "isActive": true
 }
 
-### Create score milestone achievement
+### Create score milestone achievement (admin/moderator only)
 POST {{baseUrl}}/achievements HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer {{token}}
+Authorization: Bearer {{adminToken}}
 
 {
   "name": "Point Collector",
@@ -47,10 +50,10 @@ Authorization: Bearer {{token}}
   "isActive": true
 }
 
-### Create category master achievement
+### Create category master achievement (admin/moderator only)
 POST {{baseUrl}}/achievements HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer {{token}}
+Authorization: Bearer {{adminToken}}
 
 {
   "name": "JavaScript Expert",
@@ -65,33 +68,30 @@ Authorization: Bearer {{token}}
   "isActive": true
 }
 
-### Update achievement
+### Update achievement (admin/moderator only)
 PUT {{baseUrl}}/achievements/{{achievementId}} HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer {{token}}
+Authorization: Bearer {{adminToken}}
 
 {
-  "description": "Updated description",
-  "points": 100
+  "name": "Quiz Master Updated",
+  "description": "Complete 20 quizzes"
 }
 
-### Delete achievement
+### Delete achievement (admin/moderator only)
 DELETE {{baseUrl}}/achievements/{{achievementId}} HTTP/1.1
-Authorization: Bearer {{token}}
+Authorization: Bearer {{adminToken}}
 
-### Award achievement to user
+### Award achievement to user (admin/moderator only)
 POST {{baseUrl}}/achievements/award HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer {{token}}
+Authorization: Bearer {{adminToken}}
 
 {
   "userId": "{{userId}}",
-  "achievementId": "{{achievementId}}",
-  "progress": {
-    "completedCount": 10
-  }
+  "achievementId": "{{achievementId}}"
 }
 
 ### Check for new achievements
-POST {{baseUrl}}/achievements/check HTTP/1.1
-Authorization: Bearer {{token}}
+GET {{baseUrl}}/achievements/check HTTP/1.1
+Authorization: Bearer {{userToken}}

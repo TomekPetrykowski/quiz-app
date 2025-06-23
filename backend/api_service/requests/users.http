@@ -1,18 +1,23 @@
-@userId = cmc39itx40000dsrx7drd4csu
-@baseUrl = http://localhost:3001/v1
+@userId = cmc8rli4m0000dsteqxt8nfbe
+@baseUrl = http://localhost:3000/v1
+@adminToken = eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJqVWpYak1GVDZsRjRFV2htRFJZS1ZfM2JaUFpkMGh2cHF5WmNRbERueUg4In0.eyJleHAiOjE3NTA2NjU4MDYsImlhdCI6MTc1MDY2NDAwNiwianRpIjoib25ydHJvOjhiMWZiNzZjLWYzMGYtNDMyMy1hZGEzLWJjODQ4MmRiNmEyZiIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MC9yZWFsbXMvcXVpei1hcHAiLCJhdWQiOlsiYXBpLXNlcnZpY2UiLCJhY2NvdW50Il0sInN1YiI6IjM4NzE4YzU0LWU4NGQtNGMxNy04OTY1LTRjMTY5NzM4M2MzOCIsInR5cCI6IkJlYXJlciIsImF6cCI6ImFwaS1zZXJ2aWNlIiwic2lkIjoiYzFkMzdmMWEtMGZmNC00ZWUwLWJmM2ItYTk3N2I4OGNjMTg2IiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwOi8vbG9jYWxob3N0OjMwMDAvKiIsIioiLCJodHRwOi8vbG9jYWxob3N0OjMwMDEvKiJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsibW9kZXJhdG9yIiwib2ZmbGluZV9hY2Nlc3MiLCJkZWZhdWx0LXJvbGVzLXF1aXotYXBwIiwiYWRtaW4iLCJ1bWFfYXV0aG9yaXphdGlvbiIsInVzZXIiXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwibmFtZSI6IkFkbWluZWsgQmV6cGllY3pueSIsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluZWsiLCJnaXZlbl9uYW1lIjoiQWRtaW5layIsImZhbWlseV9uYW1lIjoiQmV6cGllY3pueSIsImVtYWlsIjoiYWRtaW5AcXVpei5jb20ifQ.OzZAe8AHA9hQYb_-CkyRDdNhJe_OWYdKrwIzodoIcGJv7pEAY4af7L2dqPOIBhDR0BsNQKLW-KOm3UAL9HFUHONT5D71kHPkjCEfzuVla07SbIdsNX2w8MeEhlJvA7zEXjdXkCkOv8_sOhrQMO9GWHRvM2yBDomIrDromWQ56k73nMU51nqithf9h_mIRZxh5p0vmk43FBnDTCXVJ4ADgnzKUexPZQr5uUvU02AbqTixuCxwYPRtsL-20pBvB3gwxslEkEQDCaJEkMu7nPF4KTwS0E7PCmXOFtFRQSexRJ3zWye2SnDbJWKlXge2CwVHHiAE6j8qiQ7S_H27x6UXSA
 
-### Get all users
+### Get all users (admin/moderator only)
 GET {{baseUrl}}/users HTTP/1.1
+Authorization: Bearer {{adminToken}}
 
-### Get users with pagination
+### Get users with pagination (admin/moderator only)
 GET {{baseUrl}}/users?page=1&limit=2 HTTP/1.1
+Authorization: Bearer {{adminToken}}
 
-### Get user by ID
+### Get user by ID (admin/moderator only)
 GET {{baseUrl}}/users/{{userId}} HTTP/1.1
+Authorization: Bearer {{adminToken}}
 
-### Create new user
+### Create new user (admin/moderator only)
 POST {{baseUrl}}/users HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer {{adminToken}}
 
 {
   "email": "blabla.doe@example.com",
@@ -23,21 +28,24 @@ Content-Type: application/json
   "avatar": "https://example.com/avatar.jpg"
 }
 
-### Update user 
+### Update user (admin/moderator only)
 PUT {{baseUrl}}/users/{{userId}} HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer {{adminToken}}
 
 {
   "email": "blabla@gmail.com"
 }
 
-### Update user - Invalid field
-PUT {{baseUrl}}/users/{{userId}} HTTP/1.1
+### Delete user (admin/moderator only)
+DELETE {{baseUrl}}/users/{{userId}} HTTP/1.1
+Authorization: Bearer {{adminToken}}
+
+### Update user roles (admin only)
+PATCH {{baseUrl}}/users/{{userId}}/roles HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer {{adminToken}}
 
 {
-  "hello": "world"
+  "roles": ["user", "moderator"]
 }
-
-### Delete user
-DELETE {{baseUrl}}/users/{{userId}} HTTP/1.1

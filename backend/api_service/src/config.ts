@@ -10,6 +10,7 @@ const keycloakConfig = {
   resource: process.env.KEYCLOAK_CLIENT_ID || "",
   "confidential-port": 0,
   "verify-token-audience": true,
+  "use-resource-role-mappings": true,
   "bearer-only": true,
   credentials: {
     secret: process.env.KEYCLOAK_CLIENT_SECRET,

@@ -16,6 +16,7 @@ import {
   updateLeaderboardSchema,
 } from "@/data/request-schemas";
 import { protectEndpoint } from "@/middleware/auth";
+import { requireRole } from "@/middleware/require-role";
 
 const leaderboards: Router = express.Router();
 
@@ -28,16 +29,23 @@ leaderboards.get("/user/:userId/position", protectEndpoint(), getUserPosition);
 leaderboards.post(
   "/",
   protectEndpoint(),
+  requireRole(["admin", "moderator"]),
   validateRequest(createLeaderboardSchema),
   createLeaderboard,
 );
 leaderboards.put(
   "/:id",
   protectEndpoint(),
+  requireRole(["admin", "moderator"]),
   validateRequest(updateLeaderboardSchema),
   updateLeaderboard,
 );
-leaderboards.delete("/:id", protectEndpoint(), deleteLeaderboard);
+leaderboards.delete(
+  "/:id",
+  protectEndpoint(),
+  requireRole(["admin", "moderator"]),
+  deleteLeaderboard,
+);
 leaderboards.post("/:id/update", protectEndpoint(), updateLeaderboardRankings);
 leaderboards.post(
   "/initialize-system",

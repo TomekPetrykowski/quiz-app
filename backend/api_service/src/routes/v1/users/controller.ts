@@ -75,3 +75,22 @@ export const deleteUser = async (req: Request, res: Response) => {
     res.status(200).send(null);
   }
 };
+
+export const updateUserRoles = async (
+  req: Request,
+  res: Response,
+  next: (err?: any) => void,
+) => {
+  try {
+    const userId = req.params.id;
+    const { roles } = req.body; // roles: string[]
+    if (!Array.isArray(roles) || roles.length === 0) {
+      res.status(400).json({ message: "Roles must be a non-empty array" });
+      return;
+    }
+    await Repository.user.setUserRoles(userId, roles);
+    res.status(200).json({ message: "User roles updated", roles });
+  } catch (err) {
+    next(err);
+  }
+};

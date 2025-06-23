@@ -197,4 +197,26 @@ export class UserRepository
 
     return this.mapToUserWithoutPassword(user);
   }
+
+  async getUserRoles(userId: string): Promise<string[]> {
+    const userRoles = await this.client.userRole.findMany({
+      where: { userId },
+      include: { role: true },
+    });
+    return userRoles.map((ur) => ur.role.name);
+  }
+
+  async setUserRoles(userId: string, roles: string[]): Promise<void> {
+    // Remove all current roles
+    await this.client.userRole.deleteMany({ where: { userId } });
+    // Find role IDs for given role names
+    const roleRecords = await this.client.role.findMany({
+      where: { name: { in: roles } },
+    });
+    // Add new roles
+    await this.client.userRole.createMany({
+      data: roleRecords.map((role) => ({ userId, roleId: role.id })),
+      skipDuplicates: true,
+    });
+  }
 }

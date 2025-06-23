@@ -15,6 +15,7 @@ import {
   updateAchievementSchema,
 } from "@/data/request-schemas";
 import { protectEndpoint } from "@/middleware/auth";
+import { requireRole } from "@/middleware/require-role";
 
 const achievements: Router = express.Router();
 
@@ -26,18 +27,30 @@ achievements.get("/user/:userId", protectEndpoint(), getUserAchievements);
 achievements.post(
   "/",
   protectEndpoint(),
+  requireRole(["admin", "moderator"]),
   validateRequest(createAchievementSchema),
   createAchievement,
 );
 achievements.put(
   "/:id",
   protectEndpoint(),
+  requireRole(["admin", "moderator"]),
   validateRequest(updateAchievementSchema),
   updateAchievement,
 );
-achievements.delete("/:id", protectEndpoint(), deleteAchievement);
-achievements.post("/award", protectEndpoint(), awardAchievement);
-achievements.post("/check", protectEndpoint(), checkUserAchievements);
-achievements.post("/check/:userId", protectEndpoint(), checkUserAchievements);
+achievements.delete(
+  "/:id",
+  protectEndpoint(),
+  requireRole(["admin", "moderator"]),
+  deleteAchievement,
+);
+achievements.post(
+  "/award",
+  protectEndpoint(),
+  requireRole(["admin", "moderator"]),
+  awardAchievement,
+);
+achievements.get("/check", protectEndpoint(), checkUserAchievements);
+achievements.get("/check/:userId", protectEndpoint(), checkUserAchievements);
 
 export default achievements;
