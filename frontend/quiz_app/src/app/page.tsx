@@ -35,7 +35,6 @@ function Dashboard() {
           </div>
         </div>
 
-        {/* API Test Component */}
         <div className="mb-6">
           <ApiTestComponent />
         </div>

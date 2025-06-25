@@ -1,4 +1,3 @@
-*chmurowe*
 secrets/
 .env
 backend/*/.env
