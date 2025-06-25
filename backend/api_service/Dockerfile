@@ -9,11 +9,14 @@ WORKDIR /app
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/prisma ./prisma
-COPY entrypoint.sh ./
+COPY --from=builder /app/entrypoint.sh ./
 
-RUN npm ci --omit=dev && chmod +x entrypoint.sh && npm cache clean --force
+RUN npm ci --omit=dev && \
+    sed -i 's/\r$//' entrypoint.sh && \
+    chmod +x entrypoint.sh && \
+    npm cache clean --force
 
 ENV NODE_ENV=production
-EXPOSE 3000
+EXPOSE 3001
 
 ENTRYPOINT ["./entrypoint.sh"]
